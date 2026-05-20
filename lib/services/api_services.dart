@@ -14,6 +14,7 @@ class ApiServices {
     );
     if (response.statusCode == 200){
       final data = jsonDecode(response.body);
+      await saveToken(data["access"]);
       return data["access"];
     } else{
       return null;
