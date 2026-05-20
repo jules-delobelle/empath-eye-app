@@ -79,7 +79,11 @@ class ApiServices {
   }
 
   static Future<String?> getToken() async{
-    return await _storage.read(key:"access_token");
+    return await _storage.read(key: "access_token");
+  }
+
+  static Future<void> deleteToken() async{
+    await _storage.delete(key: "access_token");
   }
 }
 
