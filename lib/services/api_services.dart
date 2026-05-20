@@ -1,8 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiServices {
   static const baseUrl = "http://10.0.2.2:8000/api";
+  static const _storage = FlutterSecureStorage();
 
   static Future<String?> login(String username, String password) async{
     final response = await http.post(
@@ -70,6 +72,14 @@ class ApiServices {
     }else{
       return null;
     }
+  }
+
+  static Future<void> saveToken(String token) async{
+    await _storage.write(key: "access_token", value: token);
+  }
+
+  static Future<String?> getToken() async{
+    return await _storage.read(key:"access_token");
   }
 }
 
