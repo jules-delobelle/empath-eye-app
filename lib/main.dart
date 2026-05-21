@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
         '/session' :(context) => const SessionScreen(),
         '/login':(context) => const LoginScreen()
       }
-      
     );
   }
 }

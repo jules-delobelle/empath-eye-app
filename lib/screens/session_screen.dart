@@ -4,7 +4,7 @@ class SessionScreen extends StatelessWidget {
   const SessionScreen({super.key});
 
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Text("Session"),

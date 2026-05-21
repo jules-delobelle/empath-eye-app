@@ -4,11 +4,19 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Login"),
-      ),
+        child: Column(
+          children: [
+            Text("Login"),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/home'),
+              child: Text("Vers la page Home")
+            )
+          ]
+        ),
+      )
     );
   }
 
