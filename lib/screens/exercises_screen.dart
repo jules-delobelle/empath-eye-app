@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/app_drawer.dart';
 
 class ExercisesScreen extends StatelessWidget {
   const ExercisesScreen({super.key});
@@ -6,6 +7,8 @@ class ExercisesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Exercice")),
+      drawer: AppDrawer(),
       body: Center(
         child: Text("Exercises"),
       ),
