@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../models/enfant.dart';
+
 class ApiServices {
   static const baseUrl = "http://localhost:8000/api";
   static const _storage = FlutterSecureStorage();
@@ -33,7 +35,7 @@ class ApiServices {
     return false;
   }
 
-  static Future<List?> getEnfant(String token) async{
+  static Future<List<Enfant>?> getEnfant(String token) async{
     final response = await http.get(
       Uri.parse("$baseUrl/enfant/"),
       headers: {"Content-Type": "application/json", 
@@ -41,7 +43,7 @@ class ApiServices {
     );
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
-      return data;
+      return data.map((item) => Enfant.fromJson(item)).toList();
     }else{
       return null;
     }
