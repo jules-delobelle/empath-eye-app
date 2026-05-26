@@ -20,7 +20,7 @@ class AppDrawer extends StatelessWidget{
             onTap: () {Navigator.pushNamed(context, '/history');}
           ),
           ListTile(
-            title: Text("Exercice"),
+            title: Text("Exercices"),
             onTap: () {Navigator.pushNamed(context, '/exercises');}
           ),
           ListTile(

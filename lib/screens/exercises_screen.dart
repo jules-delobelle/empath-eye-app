@@ -7,12 +7,11 @@ class ExercisesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Exercice")),
+      appBar: AppBar(title: Text("Exercices")),  
       drawer: AppDrawer(),
       body: Center(
         child: Text("Exercises"),
       ),
     );
   }
-
 }
