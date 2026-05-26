@@ -33,8 +33,9 @@ class BLEService {
       if (service.uuid.toString() == serviceUUID){
         List<BluetoothCharacteristic> characteristics = service.characteristics;
         for (var characteristic in characteristics){
-          if (characteristic.uuid.toString() == detectionsUUID)
+          if (characteristic.uuid.toString() == detectionsUUID){
             return await characteristic.read();
+          }
         }
       }
     }

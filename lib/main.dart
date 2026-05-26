@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/app_provider.dart';
 
 import 'screens/login_screen.dart'; 
 import 'screens/exercises_screen.dart';
@@ -11,7 +14,11 @@ import 'screens/session_screen.dart';
 import 'screens/about_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context)
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
