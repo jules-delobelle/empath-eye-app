@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/app_provider.dart';
+import 'services/api_services.dart';
 
 import 'screens/login_screen.dart'; 
 import 'screens/exercises_screen.dart';
@@ -13,22 +14,34 @@ import 'screens/quiz_result_screen.dart';
 import 'screens/session_screen.dart';
 import 'screens/about_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  String? token = await ApiServices.getToken();
+  String initialRoute;
+  if(token == null){
+    initialRoute = "/login";
+  }else{
+    initialRoute = "/home";
+  }
   runApp(
     ChangeNotifierProvider(
-      create: (context)
+      create: (context) => AppProvider(),
+      child: MyApp(initialRoute: initialRoute)
     )
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  
+  const MyApp({super.key, required this.initialRoute});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/login',
+      
+      initialRoute: initialRoute,
       routes: { 
         '/about': (context) => const AboutScreen(),
         '/exercises': (context) => const ExercisesScreen(),

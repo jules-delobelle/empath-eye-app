@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiServices {
-  static const baseUrl = "http://10.0.2.2:8000/api";
+  static const baseUrl = "http://localhost:8000/api";
   static const _storage = FlutterSecureStorage();
 
   static Future<String?> login(String username, String password) async{
