@@ -25,4 +25,18 @@ class BLEService {
   static void disconnect(BluetoothDevice device) async{
     device.disconnect();
   }
+
+  static Future<List<int>?> readDetections(BluetoothDevice device) async{
+    List<BluetoothService> services = await device.discoverServices();
+    for (var service in services){
+      if (service.uuid.toString() == serviceUUID){
+        List<BluetoothCharacteristic> characteristics = service.characteristics;
+        for (var characteristic in characteristics){
+          if (characteristic.uuid.toString() == detectionsUUID)
+            return await characteristic.read();
+        }
+      }
+    }
+    return null;
+  }
 }
