@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../services/api_services.dart';
+import '../providers/app_provider.dart';
 
 class AppDrawer extends StatelessWidget{
   const AppDrawer({super.key});
@@ -6,10 +10,10 @@ class AppDrawer extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Drawer(
-      child: ListView(
+      child: Column(
         children:[
           DrawerHeader(
-            child: Text("Empath Eye"),
+            child: Text("Empath'Eye"),
           ),
           ListTile(
             title: Text("Accueil"),
@@ -27,6 +31,15 @@ class AppDrawer extends StatelessWidget{
             title: Text("À propos"),
             onTap: () {Navigator.pushNamed(context, '/about');}
           ),
+          Spacer(),
+          ListTile(
+            title: Text("Déconnexion"),
+            onTap: () {
+              ApiServices.deleteToken();
+              Provider.of<AppProvider>(context, listen: false).logOut();
+              Navigator.pushNamed(context, '/login');
+            }
+          )
         ]
       )
     );
