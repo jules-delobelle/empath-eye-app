@@ -35,7 +35,7 @@ class ApiServices {
     return false;
   }
 
-  static Future<List<Enfant>?> getEnfant(String token) async{
+  static Future<List<Enfant>?> getEnfants(String token) async{
     final response = await http.get(
       Uri.parse("$baseUrl/enfant/"),
       headers: {"Content-Type": "application/json", 

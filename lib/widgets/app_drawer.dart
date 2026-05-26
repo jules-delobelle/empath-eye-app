@@ -4,11 +4,32 @@ import 'package:provider/provider.dart';
 import '../services/api_services.dart';
 import '../providers/app_provider.dart';
 
-class AppDrawer extends StatelessWidget{
+class AppDrawer extends StatefulWidget{
   const AppDrawer({super.key});
 
   @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer>{
+
+  String? token;
+
+  @override
+  void initState(){
+    super.initState();
+    _loadEnfants();
+  }
+
+  Future<void> _loadEnfants() async {
+    token = await ApiServices.getToken();
+    final enfants = await ApiServices.getEnfants(token!);
+    if (enfants != null && mounted) Provider.of<AppProvider>(context, listen: false).setEnfants(enfants);
+  }
+
+  @override
   Widget build(BuildContext context){
+    final enfants = Provider.of<AppProvider>(context).getEnfants();
     return Drawer(
       child: Column(
         children:[
@@ -32,6 +53,23 @@ class AppDrawer extends StatelessWidget{
             onTap: () {Navigator.pushNamed(context, '/about');}
           ),
           Spacer(),
+          ExpansionTile(
+            title: Text("Enfant"),
+            subtitle: Text("Cliquez pour changer d'enfant"),
+            children: [
+              ...enfants.map((enfant) => ListTile(
+                title: Text(enfant.prenom),
+                onTap: () {
+                  Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfant);
+                },
+              ),
+            ).toList(),
+            ListTile(
+              title: Text("+"),
+              onTap: () => Navigator.pushNamed(context, "/create_enfant"),
+              )
+            ]
+            ),
           ListTile(
             title: Text("Déconnexion"),
             onTap: () {
