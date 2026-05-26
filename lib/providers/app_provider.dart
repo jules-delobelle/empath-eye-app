@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../models/enfant.dart';
+
 class AppProvider extends ChangeNotifier{
   String? _token;
-  Map? _enfantSelectionne;
+  Enfant? _enfantSelectionne;
+  List<Enfant> _enfants = [];
 
   String? getToken(){
     return _token;
   }
 
-  Map? getEnfantSelectionne(){
+  Enfant? getEnfantSelectionne(){
     return _enfantSelectionne;
+  }
+
+  List<Enfant> getEnfants(){
+    return _enfants;
   }
 
   void setToken(String? token){
@@ -17,8 +24,13 @@ class AppProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setEnfantSelectionne(Map? enfantSelectionne){
+  void setEnfantSelectionne(Enfant? enfantSelectionne){
     _enfantSelectionne = enfantSelectionne;
+    notifyListeners();
+  }
+
+  void setEnfants(List<Enfant> enfants){
+    _enfants = enfants;
     notifyListeners();
   }
 
