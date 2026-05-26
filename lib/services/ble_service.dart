@@ -1,4 +1,5 @@
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'dart:convert';
 
 class BLEService {
 
@@ -38,5 +39,10 @@ class BLEService {
       }
     }
     return null;
+  }
+
+  static Map<String, dynamic> parseData(List<int> bytes){
+    String decode = utf8.decode(bytes);
+    return jsonDecode(decode);
   }
 }
