@@ -23,7 +23,9 @@ class _AppDrawerState extends State<AppDrawer>{
 
   Future<void> _loadEnfants() async {
     token = await ApiServices.getToken();
+    print("token: $token");
     final enfants = await ApiServices.getEnfants(token!);
+    print("enfants reçus: $enfants");
     if (enfants != null && mounted) Provider.of<AppProvider>(context, listen: false).setEnfants(enfants);
   }
 
@@ -63,7 +65,7 @@ class _AppDrawerState extends State<AppDrawer>{
                   Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfant);
                 },
               ),
-            ).toList(),
+            ),
             ListTile(
               title: Text("+"),
               onTap: () => Navigator.pushNamed(context, "/create_enfant"),

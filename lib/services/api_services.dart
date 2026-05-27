@@ -39,14 +39,28 @@ class ApiServices {
     final response = await http.get(
       Uri.parse("$baseUrl/enfant/"),
       headers: {"Content-Type": "application/json", 
-                "Authorization": "Bearer $token"}
+                "Authorization": "Bearer $token"},
     );
+    print("status getEnfants: ${response.statusCode}");
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
       return data.map((item) => Enfant.fromJson(item)).toList();
     }else{
       return null;
     }
+  }
+
+  static Future<bool?> createEnfant(String token, String prenom, DateTime? naissance) async{
+    final response = await http.post( 
+      Uri.parse("$baseUrl/enfant/"),
+      headers: {"Content-Type": "application/json",
+                "Authorization": "Bearer $token"},
+    body: jsonEncode({"prenom": prenom, "naissance": naissance.toString()})
+    );
+    if(response.statusCode == 201){
+      return true;
+    }
+    return false;
   }
 
   static Future<List?> getSessions(String token, int enfantId) async{
