@@ -5,7 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/enfant.dart';
 
 class ApiServices {
-  static const baseUrl = "http://localhost:8000/api";
+  static const baseUrl = "http://10.0.2.2:8000/api";
   static const _storage = FlutterSecureStorage();
 
   static Future<String?> login(String username, String password) async{
@@ -44,7 +44,7 @@ class ApiServices {
     print("status getEnfants: ${response.statusCode}");
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
-      return data.map((item) => Enfant.fromJson(item)).toList();
+      return data.map<Enfant>((item) => Enfant.fromJson(item)).toList();
     }else{
       return null;
     }
@@ -55,7 +55,7 @@ class ApiServices {
       Uri.parse("$baseUrl/enfant/"),
       headers: {"Content-Type": "application/json",
                 "Authorization": "Bearer $token"},
-    body: jsonEncode({"prenom": prenom, "naissance": naissance.toString()})
+    body: jsonEncode({"prenom": prenom, "naissance": naissance != null ? "${naissance.year}-${naissance.month.toString().padLeft(2, '0')}-${naissance.day.toString().padLeft(2, '0')}" : null})
     );
     if(response.statusCode == 201){
       return true;
