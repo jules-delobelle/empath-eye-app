@@ -29,9 +29,9 @@ class _HomeScreenState extends State<HomeScreen>{
         builder : (context, setDialogState) {
             _setDialogState = setDialogState;
             return ConnexionDialog(
-            etat: _etat,
-            onAnnuler: () => Navigator.pop(context),
-            onReessayer: () => _lancerScan(),
+              etat: _etat,
+              onAnnuler: () => Navigator.pop(context),
+              onReessayer: () => _lancerScan(),
           );
         }
       )
