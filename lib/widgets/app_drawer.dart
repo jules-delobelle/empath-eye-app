@@ -78,8 +78,8 @@ class _AppDrawerState extends State<AppDrawer>{
                             child: Text("Annuler")
                           ),
                           ElevatedButton(
-                            onPressed: () {
-                              ApiServices.deleteEnfant(token, enfant.idEnfant);
+                            onPressed: () async {
+                              await ApiServices.deleteEnfant(token, enfant.idEnfant);
                               Navigator.pop(context);
                               _loadEnfants();
                               },
