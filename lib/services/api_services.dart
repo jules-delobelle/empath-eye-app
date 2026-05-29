@@ -35,13 +35,14 @@ class ApiServices {
     return false;
   }
 
+  //Enfants
+
   static Future<List<Enfant>?> getEnfants(String token) async{
     final response = await http.get(
       Uri.parse("$baseUrl/enfant/"),
       headers: {"Content-Type": "application/json", 
                 "Authorization": "Bearer $token"},
     );
-    print("status getEnfants: ${response.statusCode}");
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
       return data.map<Enfant>((item) => Enfant.fromJson(item)).toList();
@@ -55,13 +56,27 @@ class ApiServices {
       Uri.parse("$baseUrl/enfant/"),
       headers: {"Content-Type": "application/json",
                 "Authorization": "Bearer $token"},
-    body: jsonEncode({"prenom": prenom, "naissance": naissance != null ? "${naissance.year}-${naissance.month.toString().padLeft(2, '0')}-${naissance.day.toString().padLeft(2, '0')}" : null})
+      body: jsonEncode({"prenom": prenom, "naissance": naissance != null ? "${naissance.year}-${naissance.month.toString().padLeft(2, '0')}-${naissance.day.toString().padLeft(2, '0')}" : null})
     );
     if(response.statusCode == 201){
       return true;
     }
     return false;
   }
+
+  static Future<bool?> deleteEnfant(String? token, int id) async{
+    final response = await http.delete(
+      Uri.parse("$baseUrl/enfant/$id/"),
+      headers: {"Content-Type": "application/json",
+                "Authorization": "Bearer $token"},
+    );
+    if(response.statusCode == 204){
+      return true;
+    }
+    return false;
+  }
+
+  //Sessions
 
   static Future<List?> getSessions(String token, int enfantId) async{
     final response = await http.get(

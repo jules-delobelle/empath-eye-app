@@ -39,9 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                print("bouton appuyé");
-                print(_usernameController.text);
-                print(_passwordController.text);
                 
                 String? token;
 

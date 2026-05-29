@@ -23,10 +23,8 @@ class _AppDrawerState extends State<AppDrawer>{
 
   Future<void> _loadEnfants() async {
     token = await ApiServices.getToken();
-    print("token: $token");
     if(token != null){
       final enfants = await ApiServices.getEnfants(token!);
-      print("enfants reçus: $enfants");
       if (enfants != null && mounted) Provider.of<AppProvider>(context, listen: false).setEnfants(enfants);
     }
   }
@@ -66,6 +64,32 @@ class _AppDrawerState extends State<AppDrawer>{
                 onTap: () {
                   Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfant);
                 },
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text("Confirmation"),
+                        content: Text("Êtes-vous sur de vouloir supprimer ${enfant.prenom}"),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Annuler")
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              ApiServices.deleteEnfant(token, enfant.idEnfant);
+                              Navigator.pop(context);
+                              _loadEnfants();
+                              },
+                              child: Text("Supprimer")
+                          )
+                        ]
+                      )
+                    );
+                  }
+                )
               ),
             ),
             ListTile(

@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen>{
               onReessayer: () => _lancerScan(),
           );
         }
-      )
+      ) 
     );
   }
 
