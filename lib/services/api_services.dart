@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/enfant.dart';
+import '../models/detection.dart';
+import '../models/session.dart';
 
 class ApiServices {
   static const baseUrl = "http://10.0.2.2:8000/api";
@@ -78,7 +80,7 @@ class ApiServices {
 
   //Sessions
 
-  static Future<List?> getSessions(String token, int enfantId) async{
+  static Future<List<Session>?> getSessions(String token, int enfantId) async{
     final response = await http.get(
       Uri.parse("$baseUrl/session/?enfant=$enfantId"),
       headers: {"Content-Type": "application/json",
@@ -86,13 +88,15 @@ class ApiServices {
     );
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
-      return data;
+      return data.map<Session>((item) => Session.fromJson(item)).toList();
     }else{
       return null;
     }
   }
 
-  static Future<List?> getDetections(String token, int sessionId) async{
+  //Detections
+
+  static Future<List<Detection>?> getDetections(String token, int sessionId) async{
     final response = await http.get(
       Uri.parse("$baseUrl/detection/?session=$sessionId"),
       headers: {"Content-Type":"application/json",
@@ -100,7 +104,7 @@ class ApiServices {
     );
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
-      return data;
+      return data.map<Detection>((item) => Detection.fromJson(item)).toList();
     }else{
       return null;
     }
