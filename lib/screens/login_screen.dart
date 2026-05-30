@@ -14,56 +14,123 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _handleLogin() async {
+    setState(() => _isLoading = true);
+
+    String? token;
+
+    try {
+      token = await ApiServices.login(
+        _usernameController.text,
+        _passwordController.text,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Identifiants incorrects. Veuillez réessayer.'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+
+    if (token != null) {
+      if (!mounted) return;
+      Provider.of<AppProvider>(context, listen: false).setToken(token);
+      Navigator.pushNamed(context, '/home');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            Text("Login"),
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Username"
-              )
-            ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Password"
-              )
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                
-                String? token;
-
-                try {
-                  token = await ApiServices.login(_usernameController.text, _passwordController.text);
-                  print("token: $token");
-                } catch(e) {
-                  print("erreur: $e");
-                }
-                
-                if(token !=  null){
-                  Provider.of<AppProvider>(context, listen: false).setToken(token);
-                  Navigator.pushNamed(context, "/home");
-                }
-                },
-              child: Text("Se connecter")
-            )
-          ]
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Connexion',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 32),
+              TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Nom d'utilisateur",
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Mot de passe',
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: navigation mot de passe oublié
+                  },
+                  child: const Text('Mot de passe oublié ?'),
+                ),
+              ),
+              const SizedBox(height: 4),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _handleLogin,
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text('Se connecter'),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Row(
+                children: [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('ou', style: TextStyle(color: Colors.grey)),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () {
+                    // TODO: navigation créer un compte
+                  },
+                  child: const Text('Créer un compte'),
+                ),
+              ),
+            ],
+          ),
         ),
-      )
+      ),
     );
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
