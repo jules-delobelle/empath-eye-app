@@ -110,6 +110,20 @@ class ApiServices {
     }
   }
 
+  static Future<List<Detection>?> getImportantDetections(String token) async{
+    final response = await http.get(
+      Uri.parse(("$baseUrl/detection/?important=true")),
+      headers : {"Content-Type":"application/json",
+                 "Authorization": "Bearer $token"}
+    );
+    if(response.statusCode == 200){
+      final data = jsonDecode(response.body);
+      return data.map<Detection>((item) => Detection.fromJson(item)).toList();
+    }else{
+      return null;
+    }
+  }
+
   static Future<void> saveToken(String token) async{
     await _storage.write(key: "access_token", value: token);
   }
