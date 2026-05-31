@@ -5,6 +5,7 @@ import '../services/api_services.dart';
 import '../providers/app_provider.dart';
 import '../models/enfant.dart';
 import '../models/session.dart';
+import '../models/detection.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -18,6 +19,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   String? token;
   List<Session> _sessions = [];
+  List<Detection> _importantDetections = [];
 
   @override
   void initState(){
@@ -30,9 +32,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     if(token != null){
       Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
       if(enfant != null) {
+        DateTime limite = DateTime.now().subtract(Duration(days: 7));
         final history = await ApiServices.getSessions(token!, enfant.idEnfant);
-        if(history != null && mounted) {
-          setState(() {_sessions = history;});
+        final rawDetections = (await ApiServices.getImportantDetections(token!));
+        if(rawDetections != null && history != null && mounted){
+          final importantDetections = rawDetections.where((d) => d.heure!.isAfter(limite)).toList();
+          history.sort((a, b) => b.date!.compareTo(a.date!));
+          importantDetections.sort((a, b) => b.heure!.compareTo(a.heure!));
+          setState(() {_sessions = history; _importantDetections = importantDetections;});
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -45,18 +52,34 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Historique")),
+      appBar: AppBar(title: Text("Historique")), 
       drawer: AppDrawer(),
-      body: ListView.builder(
-        itemCount: _sessions.length,
-        itemBuilder: (context, index) {
-          Session session = _sessions[index];
-          return ListTile(
-            title: Text("${session.date}"),
-            onTap:() => Navigator.pushNamed(context, '/session', arguments: session),
-          );
-        }
-      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text("Interactions importantes des 7 derniers jours"),
+            ..._importantDetections.take(3).map((detection) => ListTile(
+              title: Text(detection.emotion),
+              onTap:() => Navigator.pushNamed(context, "/interaction", arguments: detection)
+            )),
+            if (_importantDetections.length > 3 )ExpansionTile(
+              title: Text("Voir plus"),
+              children: [
+                ..._importantDetections.skip(3).map((detection) => ListTile(
+                  title: Text(detection.emotion),
+                  onTap:() => Navigator.pushNamed(context, "/interaction", arguments: detection),
+                ))
+              ]
+            ),
+            Text("Sessions"),
+            ..._sessions.map((session) => ListTile(
+              title: Text("${session.date}"),
+              onTap:() => Navigator.pushNamed(context, '/session', arguments: session) 
+            ))
+          ]
+        )
+      )
     );
   }
 }
+
