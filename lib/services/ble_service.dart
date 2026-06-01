@@ -57,6 +57,24 @@ class BLEService {
     }
   }
 
+  static Stream<List<int>> listenTransfer(BluetoothDevice device) async*{
+    List<BluetoothService> services = await device.discoverServices();
+    for (var service in services){
+      if(service.uuid.toString() == serviceUUID){
+        List<BluetoothCharacteristic> characteristics = service.characteristics;
+        for (var characteristic in characteristics){
+          if (characteristic.uuid.toString() == transferUUID){
+            await characteristic.setNotifyValue(true);
+
+            yield* characteristic.onValueReceived;
+
+            return;
+          }
+        }
+      }
+    }
+  }
+
   static Map<String, dynamic> parseData(List<int> bytes){
     String decode = utf8.decode(bytes);
     return jsonDecode(decode);
