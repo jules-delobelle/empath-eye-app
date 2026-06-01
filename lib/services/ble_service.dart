@@ -4,9 +4,8 @@ import 'dart:convert';
 class BLEService {
 
   static const String serviceUUID = "948c621a-6017-443d-8f75-fd00cf7af340";
-  static const String detectionsUUID = "fbd3e679-420f-4027-86ac-528d8251ae94";
-  static const String statutUUID = "5ef1754d-6049-4a93-a80e-9f162316b6ae";
-  static const String batterieUUID = "24a0b8cc-dec8-430f-9202-400e319daa8b";
+  static const String transferUUID = "fbd3e679-420f-4027-86ac-528d8251ae94";
+  static const String commandUUID = "5ef1754d-6049-4a93-a80e-9f162316b6ae";
 
   static Stream<List<ScanResult>> scanDevices() {
       FlutterBluePlus.startScan(
@@ -33,13 +32,29 @@ class BLEService {
       if (service.uuid.toString() == serviceUUID){
         List<BluetoothCharacteristic> characteristics = service.characteristics;
         for (var characteristic in characteristics){
-          if (characteristic.uuid.toString() == detectionsUUID){
+          if (characteristic.uuid.toString() == transferUUID){
             return await characteristic.read();
+          }
+        }
+      } 
+    }
+    return null;
+  }
+
+  static Future<void> sendCommand(BluetoothDevice device, String command) async{
+    List<BluetoothService> services = await device.discoverServices();
+    for (var service in services){
+      if (service.uuid.toString() == serviceUUID){
+        List<BluetoothCharacteristic> characteristics = service.characteristics;
+        for (var characteristic in characteristics){
+          if (characteristic.uuid.toString() == commandUUID){
+            List<int> bytes = utf8.encode(command);
+            await characteristic.write(bytes);
+            return;
           }
         }
       }
     }
-    return null;
   }
 
   static Map<String, dynamic> parseData(List<int> bytes){
