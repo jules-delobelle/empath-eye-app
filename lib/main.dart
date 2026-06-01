@@ -14,6 +14,7 @@ import 'screens/quiz_result_screen.dart';
 import 'screens/session_screen.dart';
 import 'screens/about_screen.dart';
 import 'screens/enfant_create_screen.dart';
+import 'screens/register_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +54,8 @@ class MyApp extends StatelessWidget {
         '/quiz_result' : (context) => const QuizResultScreen(),
         '/session' : (context) => const SessionScreen(),
         '/login': (context) => const LoginScreen(),
-        '/create_enfant': (context) => const CreateEnfantScreen()
+        '/create_enfant': (context) => const CreateEnfantScreen(),
+        '/register': (context) => const RegisterScreen(),
       }
     );
   }

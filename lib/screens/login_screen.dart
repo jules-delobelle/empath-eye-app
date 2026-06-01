@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
-                    // TODO: navigation créer un compte
+                    Navigator.pushNamed(context, '/register');
                   },
                   child: const Text('Créer un compte'),
                 ),
