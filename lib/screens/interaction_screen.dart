@@ -37,7 +37,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
           children: [
             // ── Date & émotion ──────────────────────────────────────
             Text(
-              "21/06/2026, 14h05",
+              "${_detection!.heure}",
               style: TextStyle(
                 fontSize: 14,
                 color: const Color.fromARGB(255, 0, 0, 0),
@@ -45,8 +45,8 @@ class _InteractionScreenState extends State<InteractionScreen> {
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              "Joie",
+            Text(
+              _detection!.emotion,
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
