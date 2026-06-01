@@ -16,13 +16,27 @@ class _InteractionScreenState extends State<InteractionScreen> {
   final List<String?> _images = [null, null, null, null];
 
   @override
-  void initState() {
-    super.initState();
-    final detection =
-        ModalRoute.of(context)!.settings.arguments as Detection;
-    setState(() {
-      _detection = detection;
-    });
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_detection == null) {
+      final detection = ModalRoute.of(context)!.settings.arguments as Detection;
+      setState(() { _detection = detection; });
+    }
+  }
+
+  String _getEmojiForEmotion(String? emotion) {
+    switch (emotion?.toLowerCase()) {
+      case 'joie':
+        return '😄';
+      case 'tristesse':
+        return '😢';
+      case 'surprise':
+        return '😲';
+      case 'colère':
+        return '😠';
+      default:
+        return '😐';
+    }
   }
 
   @override
@@ -57,10 +71,11 @@ class _InteractionScreenState extends State<InteractionScreen> {
             const SizedBox(height: 24),
 
             // ── Smiley ──────────────────────────────────────────────
-            const Text(
-              "😄",
-              style: TextStyle(fontSize: 80),
+            Text(
+              _getEmojiForEmotion(_detection?.emotion),
+              style: const TextStyle(fontSize: 80),
             ),
+
 
             const SizedBox(height: 28),
 
@@ -77,8 +92,8 @@ class _InteractionScreenState extends State<InteractionScreen> {
                 ),
               ),
               child: const Text(
-                "La joie est une émotion positive intense ressentie en réponse à un événement agréable, une réussite ou une connexion sociale. "
-                "Elle se distingue physiquement par un sourire spontané, souvent accompagné de plissement des yeux (sourire de Duchenne). "
+                "La joie est une émotion positive ressentie en réponse à un événement agréable, une réussite ou une connexion sociale. "
+                "Elle se distingue physiquement par un sourire spontané, souvent accompagné de plissement des yeux. "
                 "On peut également observer une posture ouverte, des gestes plus amples et une énergie corporelle accrue. "
                 "La voix devient plus dynamique et le regard s'illumine, reflétant un état intérieur de bien-être et d'enthousiasme.",
                 style: TextStyle(

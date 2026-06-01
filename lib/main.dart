@@ -20,7 +20,7 @@ void main() async {
   String? token = await ApiServices.getToken();
   String initialRoute;
   if(token == null){
-    initialRoute = "/login";
+    initialRoute = "/interaction";
   }else{
     initialRoute = "/home";
   }
