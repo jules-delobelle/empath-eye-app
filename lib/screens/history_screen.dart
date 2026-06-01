@@ -34,7 +34,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       if(enfant != null) {
         DateTime limite = DateTime.now().subtract(Duration(days: 7));
         final history = await ApiServices.getSessions(token!, enfant.idEnfant);
-        final rawDetections = (await ApiServices.getImportantDetections(token!));
+        final rawDetections = await ApiServices.getImportantDetections(token!);
         if(rawDetections != null && history != null && mounted){
           final importantDetections = rawDetections.where((d) => d.heure!.isAfter(limite)).toList();
           history.sort((a, b) => b.date!.compareTo(a.date!));

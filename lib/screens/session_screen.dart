@@ -16,6 +16,8 @@ class _SessionScreenState extends State<SessionScreen>{
 
   String? token;
   List<Detection> _detections = [];
+  List<Detection> _importantDetections = [];
+  Session? _session;
   
 
   @override
@@ -30,7 +32,10 @@ class _SessionScreenState extends State<SessionScreen>{
     if(token != null){
       final List<Detection>? detections = await ApiServices.getDetections(token!, session.idSession);
       if(detections != null && mounted){
-        setState(() {_detections = detections;});
+        final List<Detection> importantDetections = detections.where((d) => d.important == true).toList();
+        detections.sort((a, b) => b.heure!.compareTo(a.heure!));
+        importantDetections.sort((a, b) => b.heure!.compareTo(a.heure!));
+        setState(() {_detections = detections; _importantDetections = importantDetections; _session = session;});
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Erreur dans le chargement de la session"))
@@ -44,17 +49,23 @@ class _SessionScreenState extends State<SessionScreen>{
     return Scaffold(
       appBar: AppBar(title: Text("Session")),
       drawer: AppDrawer(),
-      body: ListView.builder(
-        itemCount: _detections.length,
-        itemBuilder: (context, index) {
-          Detection detection = _detections[index];
-          return ListTile(
-            title: Text("${detection.emotion} | ${detection.heure}"),
-            onTap:() => Navigator.pushNamed(context, '/interaction', arguments: detection),
-          );
-        }
+      body: SingleChildScrollView(
+        child: Column( 
+          children: [
+            Text("Session du ${_session?.date ?? "Chargement en cours..."}"),
+            Text("Interactions importantes"),
+            ..._importantDetections.map((detection) => ListTile(
+              title: Text(detection.emotion),
+              onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
+            )),
+            Text("Interactions de la session"),
+            ..._detections.map((detection) => ListTile(
+              title: Text(detection.emotion),
+              onTap:() => Navigator.pushNamed(context, "/interaction", arguments: detection)
+            ))
+          ]
+        )
       ),
     );
   }
-
 }
