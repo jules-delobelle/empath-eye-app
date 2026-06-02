@@ -56,7 +56,13 @@ class _AppDrawerState extends State<AppDrawer>{
           ),
           Spacer(),
           ExpansionTile(
-            title: Text("Enfant"),
+            title: Text(
+                Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne() == null
+                    ? "Non sélectionné"
+                    : Provider.of<AppProvider>(context, listen: false)
+                        .getEnfantSelectionne()!
+                        .prenom,
+              ),
             subtitle: Text("Cliquez pour changer d'enfant"),
             children: [
               ...enfants.map((enfant) => ListTile(

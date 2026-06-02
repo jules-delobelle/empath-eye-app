@@ -9,8 +9,10 @@ import '../widgets/connexion_card.dart';
 import '../widgets/connexion_dialog.dart';
 import '../widgets/emotion_graph.dart';
 import '../models/enfant.dart';
+import '../models/session.dart';
 import '../providers/app_provider.dart';
 import '../services/ble_service.dart';
+import '../services/api_services.dart';
 
 enum EtatConnexion {recherche, connecte, erreur}
 
@@ -34,30 +36,26 @@ class _HomeScreenState extends State<HomeScreen>{
             return ConnexionDialog(
               etat: _etat,
               onAnnuler: () => Navigator.pop(context),
-              onReessayer: () => _lancerScan(),
+              onReessayer: () => _telecharger(),
           );
         }
       ) 
     );
   }
 
-  void _lancerScan() async {
-    BLEService.scanDevices().listen((appareils) {
-      if(appareils.isNotEmpty){
-        setState(() { _etat = EtatConnexion.connecte; });
-        _setDialogState?.call(() {});
-        BLEService.stopScan();
-      }
-    });
-
-    await Future.delayed(Duration(seconds: 5));
-    if(_etat != EtatConnexion.connecte){
-      setState(() { _etat = EtatConnexion.erreur; });
-      _setDialogState?.call(() {});
-    }
-  }
-
   void _telecharger() async{
+    String? token = await ApiServices.getToken();
+    Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
+
+    if(token == null || enfant == null){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur lors du chargement"))
+      );
+      return;
+    }
+
+    _ouvrirDialog();
+
     List<ScanResult> appareils = await BLEService.scanDevices().first;
     ScanResult? lunettes;
     for (var appareil in appareils) {
@@ -67,11 +65,16 @@ class _HomeScreenState extends State<HomeScreen>{
         }
     }
     if (lunettes == null) {
+      setState(() {_etat = EtatConnexion.erreur;});
+      _setDialogState?.call(() {});
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Lunettes introuvables"))
       );
       return;
     }
+
+    setState(() {_etat = EtatConnexion.connecte;});
+    _setDialogState?.call(() {});
 
     await BLEService.connect(lunettes.device);
     await BLEService.sendCommand(lunettes.device, "REQUEST_FILES");
@@ -79,6 +82,34 @@ class _HomeScreenState extends State<HomeScreen>{
     String? nomFichierEnCours;
     List<int> buffer = [];
     int tailleAttendue = 0;
+    List<Session>? sessions = await ApiServices.getSessions(token, enfant.idEnfant);
+    Session? sessionDuJour;
+    
+    if (sessions != null){
+      for (var session in sessions){
+        if(session.date != null){
+          if (
+              session.date!.year == DateTime.now().year &&
+              session.date!.month == DateTime.now().month &&
+              session.date!.day == DateTime.now().day
+              ){
+            sessionDuJour = session;
+            break;
+              }
+        }
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erreur de session"))
+      );
+      return;
+    }
+
+    if (sessionDuJour == null){
+      sessionDuJour = await ApiServices.createSession(token, DateTime.now(), enfant.idEnfant);
+    }
+
+    if(sessionDuJour == null) return;
 
     await for (var paquet in BLEService.listenTransfer(lunettes.device)){
       try{
@@ -94,13 +125,21 @@ class _HomeScreenState extends State<HomeScreen>{
         buffer.addAll(paquet);
 
         if(buffer.length >= tailleAttendue){
-          String contenu = utf8.decode(buffer);
+          Map detectionJson = jsonDecode(utf8.decode(buffer));
+          await ApiServices.createDetection(
+            token, 
+            sessionDuJour.idSession, 
+            detectionJson["emotion"], 
+            DateTime.parse(detectionJson["heure"]), 
+            detectionJson["important"]);
         }
       }
     }
     await BLEService.sendCommand(lunettes.device, "TRANSFER_OK");
 
     await BLEService.disconnect(lunettes.device);
+
+    Navigator.pop(context);
   }
 
   @override
@@ -118,8 +157,7 @@ class _HomeScreenState extends State<HomeScreen>{
           ConnexionCard(
             onTelecharger: () {
               setState(() {_etat = EtatConnexion.recherche;});
-              _ouvrirDialog();
-              _lancerScan();
+              _telecharger();
             }
           ),
           EmotionGraph()
