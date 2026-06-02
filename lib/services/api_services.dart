@@ -94,6 +94,20 @@ class ApiServices {
     }
   }
 
+  static Future<Session?> createSession(String token, DateTime date, int enfantID) async{
+    final response = await http.post(
+      Uri.parse("$baseUrl/session/"),
+      headers: {"Content-Type": "application/json",
+                "Authorization": "Bearer $token"},
+      body: jsonEncode({"id_enfant": enfantID, "date": date.toIso8601String().split('T')[0]})
+    );
+    if(response.statusCode == 201){
+      final data = jsonDecode(response.body);
+      return Session.fromJson(data);
+    }
+    return null;
+  }
+
   //Detections
 
   static Future<List<Detection>?> getDetections(String token, int sessionId) async{
@@ -108,6 +122,19 @@ class ApiServices {
     }else{
       return null;
     }
+  }
+
+  static Future<bool?> createDetection(String token, int sessionID, String emotion, DateTime heure, bool important) async{
+    final response = await http.post(
+      Uri.parse("$baseUrl/detection/"),
+      headers: {"Content-Type":"application/json",
+                "Authorization": "Bearer $token"},
+      body: jsonEncode({"id_session": sessionID, "emotion": emotion, "heure": heure.toIso8601String(), "important": important})
+    );
+    if(response.statusCode == 201){
+      return true;
+    }
+    return false;
   }
 
   static Future<List<Detection>?> getImportantDetections(String token) async{
