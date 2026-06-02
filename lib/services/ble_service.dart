@@ -18,11 +18,11 @@ class BLEService {
     FlutterBluePlus.stopScan();
   }
 
-  static void connect(BluetoothDevice device) async{
+  static Future<void> connect(BluetoothDevice device) async{
     device.connect();
   }
 
-  static void disconnect(BluetoothDevice device) async{
+  static Future<void> disconnect(BluetoothDevice device) async{
     device.disconnect();
   }
 
