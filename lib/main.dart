@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'providers/app_provider.dart';
 import 'services/api_services.dart';
+import 'models/enfant.dart';
 
 import 'screens/login_screen.dart'; 
 import 'screens/exercises_screen.dart';
@@ -19,15 +20,27 @@ import 'screens/register_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   String? token = await ApiServices.getToken();
+  int? enfantId = await ApiServices.getEnfantId();
+  
+  Enfant? enfantSaved;
+  
   String initialRoute;
   if(token == null){
     initialRoute = "/login";
-  }else{
+  }else{ 
     initialRoute = "/home";
+    List<Enfant>? enfants = await ApiServices.getEnfants(token);
+    if(enfants != null){
+      for (var enfant in enfants){
+        if(enfant.idEnfant == enfantId){
+          enfantSaved = enfant;
+        }
+      }
+    }
   }
   runApp(
     ChangeNotifierProvider(
-      create: (context) => AppProvider(),
+      create: (context) => AppProvider(enfantInitial: enfantSaved),
       child: MyApp(initialRoute: initialRoute)
     )
   );

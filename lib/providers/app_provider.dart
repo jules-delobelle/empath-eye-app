@@ -7,6 +7,10 @@ class AppProvider extends ChangeNotifier{
   Enfant? _enfantSelectionne;
   List<Enfant> _enfants = [];
 
+  AppProvider({Enfant? enfantInitial}){
+    _enfantSelectionne = enfantInitial;
+  }
+
   String? getToken(){
     return _token;
   }

@@ -69,6 +69,7 @@ class _AppDrawerState extends State<AppDrawer>{
                 title: Text(enfant.prenom),
                 onTap: () {
                   Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfant);
+                  ApiServices.saveEnfantId(enfant);
                 },
                 trailing: IconButton(
                   icon: Icon(Icons.delete),

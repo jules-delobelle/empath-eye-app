@@ -162,5 +162,14 @@ class ApiServices {
   static Future<void> deleteToken() async{
     await _storage.delete(key: "access_token");
   }
+
+  static Future<void> saveEnfantId(Enfant enfant) async{
+    await _storage.write(key: "enfant_id", value: enfant.idEnfant.toString());
+  }
+
+  static Future<int?> getEnfantId() async{
+    String? valeur = await _storage.read(key: "enfant_id");
+    return valeur != null ? int.parse(valeur) : null;
+  }
 }
 
