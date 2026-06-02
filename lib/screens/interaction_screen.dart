@@ -42,20 +42,20 @@ class _InteractionScreenState extends State<InteractionScreen> {
   String _getDescriptionForEmotion(String? emotion) {
   switch (emotion?.toLowerCase()) {
     case 'joie':
-      return "La joie est une émotion positive intense ressentie en réponse à un événement agréable, une réussite ou une connexion sociale. "
-          "Elle se distingue physiquement par un sourire spontané, souvent accompagné de plissement des yeux (sourire de Duchenne). "
+      return "La joie est une émotion positive ressentie en réponse à un événement agréable, une réussite ou une connexion sociale. "
+          "Elle se distingue physiquement par un sourire spontané, souvent accompagné de plissement des yeux. "
           "On peut également observer une posture ouverte, des gestes plus amples et une énergie corporelle accrue. "
           "La voix devient plus dynamique et le regard s'illumine, reflétant un état intérieur de bien-être et d'enthousiasme.";
 
     case 'tristesse':
       return "La tristesse est une émotion naturelle ressentie face à une perte, une déception ou une situation douloureuse. "
           "Elle se manifeste physiquement par un regard baissé, des coins de la bouche tombants et des paupières lourdes. "
-          "La posture devient souvent voûtée, les mouvements ralentis, et la voix plus douce ou chevrotante. "
+          "La posture devient souvent voûtée, les mouvements ralentis et la voix plus douce. "
           "Des larmes peuvent apparaître, accompagnées d'une sensation de lourdeur dans la poitrine.";
 
     case 'surprise':
       return "La surprise est une émotion brève déclenchée par un événement inattendu, pouvant être positive ou négative. "
-          "Elle se reconnaît facilement par les sourcils levés et arqués, les yeux grands ouverts et la bouche entrouverte. "
+          "Elle se reconnaît par les sourcils levés et arqués, les yeux grands ouverts et la bouche entrouverte. "
           "Le corps réagit souvent par un léger sursaut, une inspiration soudaine et un gel momentané des mouvements. "
           "Elle est l'une des émotions les plus courtes : elle laisse rapidement place à une autre émotion selon le contexte.";
 
