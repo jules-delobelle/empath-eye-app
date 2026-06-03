@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import '../widgets/app_drawer.dart';
 import '../models/quiz_question.dart';
 import '../services/quiz_service.dart';
@@ -19,6 +20,7 @@ class _QuizScreenState extends State<QuizScreen>{
   bool _bonneReponse = false;
   String? _type;
   List<String> _emotionsMelangees = [];
+  String? _emotionAffichee;
 
   void _nouvelleQuestion(){
     setState(() {
@@ -26,12 +28,33 @@ class _QuizScreenState extends State<QuizScreen>{
       _reponsedonne = false;
       _bonneReponse = false;
     },); 
+    if(_type == "quiz_emotion"){
+      if(Random().nextInt(2) == 0){
+        setState(() => _emotionAffichee = _questions![_indexActuel].emotion);
+      }else{
+        List<String> autresEmotions = QuizService.emotions.where((e) => e != _questions![_indexActuel].emotion).toList();
+        setState(() => _emotionAffichee = autresEmotions[Random().nextInt(autresEmotions.length)]);
+      } 
+    }
   }
 
   void _repondre(String emotion){
     setState(() {
       _reponsedonne = true;
       if(emotion == _questions![_indexActuel].emotion){
+        _bonneReponse = true;
+        _score++;
+      }else{
+        _bonneReponse = false;
+      }
+    });
+  }
+
+  void _repondreVraiFaux(bool reponse){
+    bool bonneEmotion = (_emotionAffichee == _questions![_indexActuel].emotion);
+    setState(() {
+      _reponsedonne = true;
+      if (reponse == bonneEmotion){
         _bonneReponse = true;
         _score++;
       }else{
@@ -51,7 +74,7 @@ class _QuizScreenState extends State<QuizScreen>{
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
+    super.didChangeDependencies();  
     if (_questions == null){
       _type = ModalRoute.of(context)!.settings.arguments as String;
       _questions = QuizService.genererQuestions();
@@ -63,18 +86,36 @@ class _QuizScreenState extends State<QuizScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Quiz")),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(), 
       body: Column(
         children: [
-          Image.asset(_questions![_indexActuel].path),
-          Text("Quelle émotion est décrite sur l'image ?"),
-          ..._emotionsMelangees.map((emotion) => ElevatedButton(
-            onPressed: _reponsedonne ? null : () => _repondre(emotion),
-            child: Text(emotion)
-          )),
+          if(_type == "grand_quiz") ...[
+            Image.asset(_questions![_indexActuel].path),
+            Text("Quelle émotion est décrite sur l'image ?"),
+            ..._emotionsMelangees.map((emotion) => ElevatedButton(
+              onPressed: _reponsedonne ? null : () => _repondre(emotion),
+              child: Text(emotion)  
+            )),
+          ]else ...[
+            Text(_emotionAffichee ?? ""),
+            Image.asset(_questions![_indexActuel].path),
+            Text("Est ce que l'image correspond à cette emotion ?"),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: _reponsedonne? null : () => _repondreVraiFaux(true),
+                  child: Text("VRAI"),
+                ),
+                ElevatedButton(
+                  onPressed: _reponsedonne? null: () => _repondreVraiFaux(false),
+                  child: Text("FAUX")
+                )
+              ]
+            )
+          ],
           if(_reponsedonne) IconButton(
-            icon: Icon(Icons.arrow_forward),
-            onPressed: () => _suivant()
+              icon: Icon(Icons.arrow_forward),
+              onPressed: () => _suivant()
           )
         ]
       )
