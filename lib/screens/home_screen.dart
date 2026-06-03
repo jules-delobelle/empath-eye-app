@@ -79,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen>{
     await BLEService.connect(lunettes.device);
     await BLEService.sendCommand(lunettes.device, "REQUEST_FILES");
 
-    String? nomFichierEnCours;
     List<int> buffer = [];
     int tailleAttendue = 0;
     List<Session>? sessions = await ApiServices.getSessions(token, enfant.idEnfant);
@@ -87,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen>{
     
     if (sessions != null){
       for (var session in sessions){
-        if(session.date != null){
+        if(session.date != null){ 
           if (
               session.date!.year == DateTime.now().year &&
               session.date!.month == DateTime.now().month &&
@@ -118,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen>{
           break;
         }
 
-        nomFichierEnCours = json["name"];
         tailleAttendue = json["size"];
         buffer = [];
       }catch(e){
