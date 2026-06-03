@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import '../widgets/app_drawer.dart';
 import '../models/quiz_question.dart';
+import '../models/quiz_result.dart';
 import '../services/quiz_service.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -21,6 +22,8 @@ class _QuizScreenState extends State<QuizScreen>{
   String? _type;
   List<String> _emotionsMelangees = [];
   String? _emotionAffichee;
+  Map<String, int> _bonnesReponsesParEmotion = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0};
+  Map<String, int> _questionsParEmotion = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0};
 
   void _nouvelleQuestion(){
     setState(() {
@@ -39,10 +42,13 @@ class _QuizScreenState extends State<QuizScreen>{
   }
 
   void _repondre(String emotion){
+    String emotionQuestion = _questions![_indexActuel].emotion;
     setState(() {
+      _questionsParEmotion[emotionQuestion] = _questionsParEmotion[emotionQuestion]! + 1;
       _reponsedonne = true;
       if(emotion == _questions![_indexActuel].emotion){
         _bonneReponse = true;
+        _bonnesReponsesParEmotion[emotionQuestion] = _bonnesReponsesParEmotion[emotionQuestion]! + 1;
         _score++;
       }else{
         _bonneReponse = false;
@@ -52,10 +58,13 @@ class _QuizScreenState extends State<QuizScreen>{
 
   void _repondreVraiFaux(bool reponse){
     bool bonneEmotion = (_emotionAffichee == _questions![_indexActuel].emotion);
+    String emotionQuestion = _questions![_indexActuel].emotion;
     setState(() {
+      _questionsParEmotion[emotionQuestion] = _questionsParEmotion[emotionQuestion]! + 1;
       _reponsedonne = true;
       if (reponse == bonneEmotion){
         _bonneReponse = true;
+        _bonnesReponsesParEmotion[emotionQuestion] = _bonnesReponsesParEmotion[emotionQuestion]! + 1;
         _score++;
       }else{
         _bonneReponse = false;
@@ -68,7 +77,17 @@ class _QuizScreenState extends State<QuizScreen>{
       setState(() { _indexActuel++; });
       _nouvelleQuestion();
     }else{
-      Navigator.pushNamed(context, "/quiz_result", arguments: _score);
+      Navigator.pushNamed(
+        context, 
+        "/quiz_result", 
+        arguments: QuizResultat(
+          scoreTotal: _score,
+          nombreQuestions: _questions!.length,
+          bonnesReponsesParEmotion: _bonnesReponsesParEmotion,
+          questionsParEmotion: _questionsParEmotion,
+          type: _type!
+        )
+      );
     }
   }
 

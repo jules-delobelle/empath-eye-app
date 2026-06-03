@@ -9,8 +9,20 @@ class ExercisesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Exercices")),  
       drawer: AppDrawer(),
-      body: Center(
-        child: Text("Exercises"),
+      body: Column(
+        children: [
+          Text("Choisis ton mode d'entrainement !"),
+          Spacer(),
+          ElevatedButton(
+            onPressed:() => Navigator.pushNamed(context, "/quiz", arguments: "grand_quiz"),
+            child: Text("Grand Quiz")
+          ),
+          Spacer(),
+          ElevatedButton(
+            onPressed:() => Navigator.pushNamed(context, "/quiz", arguments: "quiz_emotion"),
+            child: Text("Quiz émotion")
+          )
+        ],
       ),
     );
   }

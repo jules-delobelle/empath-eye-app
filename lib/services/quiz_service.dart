@@ -1,6 +1,7 @@
 import '../models/quiz_question.dart';
 
 class QuizService {
+  
   static const List<String> emotions = ["joie", "tristesse", "colere", "surprise"];
   static const int imagesParEmotion = 15;
   static const int questionsParEmotion = 3;
