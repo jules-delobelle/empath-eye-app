@@ -32,7 +32,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
         return '😢';
       case 'surprise':
         return '😲';
-      case 'colère':
+      case 'colere':
         return '😠';
       default:
         return '😐';
@@ -59,7 +59,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
           "Le corps réagit souvent par un léger sursaut, une inspiration soudaine et un gel momentané des mouvements. "
           "Elle est l'une des émotions les plus courtes : elle laisse rapidement place à une autre émotion selon le contexte.";
 
-    case 'colère':
+    case 'colere':
       return "La colère est une émotion forte provoquée par une frustration, une injustice ou une menace perçue. "
           "Physiquement, elle se traduit par des sourcils froncés et rapprochés, un regard intense et une mâchoire serrée. "
           "La tension musculaire augmente, le visage peut rougir, et la voix devient plus forte et plus grave. "

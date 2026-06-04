@@ -27,7 +27,11 @@ void main() async {
   String initialRoute;
   if(token == null){
     initialRoute = "/login";
+<<<<<<< HEAD
   }else{ 
+=======
+  }else{
+>>>>>>> anais
     initialRoute = "/home";
     List<Enfant>? enfants = await ApiServices.getEnfants(token);
     if(enfants != null){
