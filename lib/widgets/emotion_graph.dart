@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class EmotionGraph extends StatelessWidget {
-  const EmotionGraph({super.key});
+  final Map<String, int> stats;
+  
+  const EmotionGraph({super.key, required this.stats});
 
   @override
   Widget build(BuildContext context){
@@ -19,7 +21,7 @@ class EmotionGraph extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
-              value: 40,
+              value: (stats["surprise"] ?? 0).toDouble(),
               color: Color(0xFFA42CE0),
               radius: 70,
               title: "Suprise",
@@ -29,7 +31,7 @@ class EmotionGraph extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
-              value: 10,
+              value: (stats["colere"] ?? 0).toDouble(),
               color: Color(0xFFC72525),
               radius: 70,
               title: "Colère",
@@ -39,7 +41,7 @@ class EmotionGraph extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
-              value: 20,
+              value: (stats["tristesse"] ?? 0).toDouble(),
               color: Color(0xFF3B72E9),
               radius: 70,
               title: "Tristesse",
@@ -49,7 +51,7 @@ class EmotionGraph extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
-              value: 30,
+              value: (stats["joie"] ?? 0).toDouble(),
               color: Color(0xFFF3E243),
               radius: 70,
               title: "Joie",
@@ -59,5 +61,4 @@ class EmotionGraph extends StatelessWidget {
       )
     );  
   }
-
 }

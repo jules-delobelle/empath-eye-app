@@ -162,6 +162,21 @@ class ApiServices {
     }
   }
 
+  //Stats
+
+  static Future<Map<String, int>?> getStats(String token, int enfantId) async{
+    final response = await http.get(
+      Uri.parse("$baseUrl/stats/?enfant=$enfantId"),
+      headers: {"Content-Type": "application/json",
+                "Authorization": "Bearer $token"}
+    );
+    if(response.statusCode == 200){
+      final data = jsonDecode(response.body);
+      return Map<String, int>.from(data);
+    }
+    return null;
+  }
+
   static Future<void> saveToken(String token) async{
     await _storage.write(key: "access_token", value: token);
   }

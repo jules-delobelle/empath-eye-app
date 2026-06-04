@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>{
   EtatConnexion _etat = EtatConnexion.recherche;
+  Map<String, int> _stats = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0};
   StateSetter? _setDialogState;
 
   void _ouvrirDialog(){
@@ -44,6 +45,17 @@ class _HomeScreenState extends State<HomeScreen>{
         }
       ) 
     );
+  }
+
+  void _loadStats() async{
+    String? token = await ApiServices.getToken();
+    Enfant? enfant = Provider.of<AppProvider>(context).getEnfantSelectionne();
+    if(token != null && enfant != null){
+      Map<String, int>? stats = await ApiServices.getStats(token, enfant.idEnfant);
+      if(stats != null){
+        setState(() => _stats = stats);
+      }
+    }
   }
 
   void _telecharger() async{
@@ -192,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen>{
             child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 16))
           ),
           SizedBox(height: 24,),
-          EmotionGraph(),
+          EmotionGraph(stats: _stats),
           SizedBox(height: 48),
           RichText(
             text: TextSpan(

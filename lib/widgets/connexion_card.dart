@@ -25,7 +25,10 @@ class ConnexionCard extends StatelessWidget {
               children: [
                 TextSpan(text: "Dernier téléchargement : "),
                 TextSpan(
-                    text: "27 mai 2026, 20h03",
+                    text: 
+                      dernierTelechargement != null 
+                      ? "Dernier téléchargement : ${DateFormat('d MMMM yyyy, HH\'h\'mm', 'fr').format(dernierTelechargement!)}"
+                      : "Aucun téléchargement",
                     style: TextStyle(fontWeight: FontWeight.bold)
                 ),
               ]
