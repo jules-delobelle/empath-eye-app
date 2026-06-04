@@ -36,7 +36,10 @@ class _HomeScreenState extends State<HomeScreen>{
             return ConnexionDialog(
               etat: _etat,
               onAnnuler: () => Navigator.pop(context),
-              onReessayer: () => _telecharger(),
+              onReessayer: () {
+                Navigator.pop(context);
+                _telecharger();
+              }
           );
         }
       ) 
@@ -149,16 +152,61 @@ class _HomeScreenState extends State<HomeScreen>{
         ),
       drawer: AppDrawer(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Bienvenue ${enfant?.prenom ?? '...'} sur Empath'Eye"),
+          SizedBox(height: 24),
+          RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 22),
+              children: [
+                TextSpan(text: "Bienvenue "),
+                TextSpan(
+                    text: enfant?.prenom ?? '...',
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                ),
+                TextSpan(text: " sur Empath'Eye"),
+              ]
+            )
+          ),
+          SizedBox(height: 16),
           ConnexionCard(
             onTelecharger: () {
               setState(() {_etat = EtatConnexion.recherche;});
               _telecharger();
             }
           ),
-          EmotionGraph()
+          SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 16))
+          ),
+          SizedBox(height: 24,),
+          EmotionGraph(),
+          SizedBox(height: 48),
+          RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 16),
+              children: [
+                TextSpan(text: "Prêt à "),
+                TextSpan(
+                    text: "progresser ",
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                ),
+                TextSpan(text: "aujourd'hui ?"),
+              ]
+            )
+          ),
+          SizedBox(height: 8,),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () => Navigator.pushNamed(context, '/exercises'),
+                      child: Text("Viens t'entraîner !", style: TextStyle(fontSize: 18, color: Color(0xFF276811)))
+                  )
+              )
+          )
         ]
       ),
     );

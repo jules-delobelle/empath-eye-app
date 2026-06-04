@@ -8,28 +8,50 @@ class EmotionGraph extends StatelessWidget {
   Widget build(BuildContext context){
     return Container(
       width: double.infinity,
-      height: 200,
+      height: 240,
       child: PieChart(
         PieChartData(
+          sectionsSpace: 4,
+          centerSpaceRadius: 50,
           sections: [
             PieChartSectionData(
+              titleStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
               value: 40,
               color: Color(0xFFA42CE0),
+              radius: 70,
               title: "Suprise",
             ),
             PieChartSectionData(
+              titleStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
               value: 10,
               color: Color(0xFFC72525),
+              radius: 70,
               title: "Colère",
             ),
             PieChartSectionData(
+              titleStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
               value: 20,
               color: Color(0xFF3B72E9),
+              radius: 70,
               title: "Tristesse",
             ),
             PieChartSectionData(
+              titleStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
               value: 30,
               color: Color(0xFFF3E243),
+              radius: 70,
               title: "Joie",
             ),
           ]
