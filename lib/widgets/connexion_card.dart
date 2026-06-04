@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ConnexionCard extends StatelessWidget {
   final VoidCallback onTelecharger;
+  final DateTime? dernierTelechargement;
   
-  const ConnexionCard({super.key, required this.onTelecharger});
+  const ConnexionCard({super.key, required this.onTelecharger, required this.dernierTelechargement});
 
   @override
   Widget build(BuildContext context){

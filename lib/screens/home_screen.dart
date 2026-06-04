@@ -140,6 +140,16 @@ class _HomeScreenState extends State<HomeScreen>{
 
     await BLEService.disconnect(lunettes.device);
 
+    await ApiServices.updateDernierTelechargement(token, enfant.idEnfant);
+
+    final enfants = await ApiServices.getEnfants(token);
+    if (enfants != null && mounted) {
+        Provider.of<AppProvider>(context, listen: false).setEnfants(enfants);
+        
+        final enfantMisAJour = enfants.firstWhere((e) => e.idEnfant == enfant.idEnfant);
+        Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfantMisAJour);
+    }
+
     Navigator.pop(context);
   }
 
@@ -173,7 +183,8 @@ class _HomeScreenState extends State<HomeScreen>{
             onTelecharger: () {
               setState(() {_etat = EtatConnexion.recherche;});
               _telecharger();
-            }
+            },
+            dernierTelechargement: enfant?.dernierTelechargement
           ),
           SizedBox(height: 24),
           Padding(

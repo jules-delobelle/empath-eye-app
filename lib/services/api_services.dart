@@ -78,6 +78,17 @@ class ApiServices {
     return false;
   }
 
+  static Future<void> updateDernierTelechargement(String? token, int id) async{
+    final response = await http.patch(
+      Uri.parse("$baseUrl/enfant/$id/"),
+      headers: {"Content-Type": "application/json",
+                "Authorization": "Bearer $token"},
+      body: jsonEncode({
+        "dernier_telechargement": DateTime.now().toIso8601String()
+      })
+    );
+  }
+
   //Sessions
 
   static Future<List<Session>?> getSessions(String token, int enfantId) async{
