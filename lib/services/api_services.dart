@@ -171,7 +171,7 @@ class ApiServices {
                 "Authorization": "Bearer $token"}
     );
     if(response.statusCode == 200){
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body); 
       return Map<String, int>.from(data);
     }
     return null;

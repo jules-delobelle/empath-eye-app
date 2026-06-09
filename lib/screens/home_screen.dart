@@ -28,6 +28,12 @@ class _HomeScreenState extends State<HomeScreen>{
   Map<String, int> _stats = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0};
   StateSetter? _setDialogState;
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadStats();
+  }
+
   void _ouvrirDialog(){
     showDialog(
       context: context,
@@ -47,9 +53,9 @@ class _HomeScreenState extends State<HomeScreen>{
     );
   }
 
-  void _loadStats() async{
+  Future<void> _loadStats() async{
     String? token = await ApiServices.getToken();
-    Enfant? enfant = Provider.of<AppProvider>(context).getEnfantSelectionne();
+    Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
     if(token != null && enfant != null){
       Map<String, int>? stats = await ApiServices.getStats(token, enfant.idEnfant);
       if(stats != null){
@@ -162,6 +168,8 @@ class _HomeScreenState extends State<HomeScreen>{
         Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfantMisAJour);
     }
 
+
+    await _loadStats();
     Navigator.pop(context);
   }
 
