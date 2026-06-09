@@ -32,7 +32,7 @@ class AboutScreen extends StatelessWidget {
             _buildRow(
               context,
               text: "Nous sommes une équipe de 6 élèves en troisième année d'école d'ingénieur à l'ESIEE Paris."
-                    " Empath'eye vise à aider les enfants autistes à analyser les émotions grâce à des lunettes intelligentes.",
+                    " Empath'Eye vise à aider les enfants autistes à analyser les émotions grâce à des lunettes intelligentes.",
               imageOnRight: true,
             ),
             const SizedBox(height: 24),
@@ -60,38 +60,36 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _buildRow(BuildContext context, {required String text, required bool imageOnRight}) {
+    final imageWidget = ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        width: 110,
+        height: 110,
+        color: Colors.grey.shade300,
+        child: const Icon(Icons.image, size: 48, color: Colors.grey),
+      ),
+    );
+
     final textWidget = Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: appColors["vert_clair"],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16),
-        ),
+      flex: 3,
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 16),
       ),
     );
 
-    final imageWidget = Expanded(
-      child: Container(
-        height: 150,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: const Center(
-          child: Icon(Icons.image, size: 48, color: Colors.grey),
-        ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: appColors["vert_clair"],
+        borderRadius: BorderRadius.circular(8),
       ),
-    );
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: imageOnRight
-          ? [textWidget, const SizedBox(width: 16), imageWidget]
-          : [imageWidget, const SizedBox(width: 16), textWidget],
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: imageOnRight
+            ? [textWidget, const SizedBox(width: 12), imageWidget]
+            : [imageWidget, const SizedBox(width: 12), textWidget],
+      ),
     );
   }
 }
