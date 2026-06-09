@@ -7,7 +7,7 @@ import '../models/detection.dart';
 import '../models/session.dart';
 
 class ApiServices {
-  static const baseUrl = "http://10.0.2.2:8000/api";
+  static const baseUrl = "http://10.221.202.81:8000/api";
   static const _storage = FlutterSecureStorage();
 
   static Future<String?> login(String username, String password) async{
@@ -171,7 +171,7 @@ class ApiServices {
                 "Authorization": "Bearer $token"}
     );
     if(response.statusCode == 200){
-      final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body); 
       return Map<String, int>.from(data);
     }
     return null;

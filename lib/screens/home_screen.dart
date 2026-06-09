@@ -13,6 +13,7 @@ import '../models/session.dart';
 import '../providers/app_provider.dart';
 import '../services/ble_service.dart';
 import '../services/api_services.dart';
+import '../utils/colors.dart';
 
 enum EtatConnexion {recherche, connecte, erreur}
 
@@ -27,6 +28,12 @@ class _HomeScreenState extends State<HomeScreen>{
   EtatConnexion _etat = EtatConnexion.recherche;
   Map<String, int> _stats = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0};
   StateSetter? _setDialogState;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadStats();
+  }
 
   void _ouvrirDialog(){
     showDialog(
@@ -47,9 +54,9 @@ class _HomeScreenState extends State<HomeScreen>{
     );
   }
 
-  void _loadStats() async{
+  Future<void> _loadStats() async{
     String? token = await ApiServices.getToken();
-    Enfant? enfant = Provider.of<AppProvider>(context).getEnfantSelectionne();
+    Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
     if(token != null && enfant != null){
       Map<String, int>? stats = await ApiServices.getStats(token, enfant.idEnfant);
       if(stats != null){
@@ -162,6 +169,8 @@ class _HomeScreenState extends State<HomeScreen>{
         Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfantMisAJour);
     }
 
+
+    await _loadStats();
     Navigator.pop(context);
   }
 
@@ -179,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 22),
+              style: TextStyle(color: Colors.black, fontSize: 18),
               children: [
                 TextSpan(text: "Bienvenue "),
                 TextSpan(
@@ -201,11 +210,11 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 16))
+            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 13))
           ),
-          SizedBox(height: 24,),
+          SizedBox(height: 10,),
           EmotionGraph(stats: _stats),
-          SizedBox(height: 48),
+          SizedBox(height: 10),
           RichText(
             text: TextSpan(
               style: TextStyle(color: Colors.black, fontSize: 16),
@@ -226,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () => Navigator.pushNamed(context, '/exercises'),
-                      child: Text("Viens t'entraîner !", style: TextStyle(fontSize: 18, color: Color(0xFF276811)))
+                      child: Text("Viens t'entraîner !", style: TextStyle(fontSize: 18, color: appColors["vert_fonce"]))
                   )
               )
           )

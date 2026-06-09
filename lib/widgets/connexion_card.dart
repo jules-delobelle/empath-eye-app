@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../utils/colors.dart';
+
 class ConnexionCard extends StatelessWidget {
   final VoidCallback onTelecharger;
   final DateTime? dernierTelechargement;
@@ -12,16 +14,16 @@ class ConnexionCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       decoration: BoxDecoration(
-        color: Color(0xFF9CC78D),
+        color: appColors["vert_clair"],
         borderRadius: BorderRadius.circular(16)
       ),
       child: Column(
         children: [
-          Icon(Icons.bluetooth, size: 60),
+          Icon(Icons.bluetooth, size: 50),
           SizedBox(height: 16),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 16),  
+              style: TextStyle(color: Colors.black, fontSize: 14),  
               children: [
                 TextSpan(text: "Dernier téléchargement : "),
                 TextSpan(
@@ -37,7 +39,7 @@ class ConnexionCard extends StatelessWidget {
           SizedBox(height: 16),
           ElevatedButton(
             onPressed: onTelecharger,
-            child: Text("Téléverser", style: TextStyle(color: Color(0xFF276811), fontSize: 20))
+            child: Text("Téléverser", style: TextStyle(color: appColors["vert_fonce"], fontSize: 20))
           )
         ]
       )
