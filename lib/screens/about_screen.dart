@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
+import '../utils/colors.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -63,7 +64,7 @@ class AboutScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Color(0xFF9CC78D),
+          color: appColors["vert_clair"],
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 import '../models/detection.dart';
+import '../utils/colors.dart';
 
 class InteractionScreen extends StatefulWidget {
   const InteractionScreen({super.key});
@@ -115,10 +116,10 @@ class _InteractionScreenState extends State<InteractionScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 156, 199, 141),
+                color: appColors["vert_clair"],
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color.fromARGB(255, 156, 199, 141),
+                  color: appColors["vert_clair"]!,
                   width: 1.5,
                 ),
               ),

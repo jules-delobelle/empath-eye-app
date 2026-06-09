@@ -13,6 +13,7 @@ import '../models/session.dart';
 import '../providers/app_provider.dart';
 import '../services/ble_service.dart';
 import '../services/api_services.dart';
+import '../utils/colors.dart';
 
 enum EtatConnexion {recherche, connecte, erreur}
 
@@ -234,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () => Navigator.pushNamed(context, '/exercises'),
-                      child: Text("Viens t'entraîner !", style: TextStyle(fontSize: 18, color: Color(0xFF276811)))
+                      child: Text("Viens t'entraîner !", style: TextStyle(fontSize: 18, color: appColors["vert_fonce"]))
                   )
               )
           )
