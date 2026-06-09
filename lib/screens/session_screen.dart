@@ -59,11 +59,13 @@ class _SessionScreenState extends State<SessionScreen>{
             ..._importantDetections.map((detection) => DetectionTile(
               detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
+              showDate: false
             )),
             Text("Interactions de la session"),
             ..._detections.map((detection) => DetectionTile(
               detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
+              showDate: false
             )),
           ]
         )
