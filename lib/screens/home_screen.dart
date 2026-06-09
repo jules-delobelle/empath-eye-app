@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 22),
+              style: TextStyle(color: Colors.black, fontSize: 18),
               children: [
                 TextSpan(text: "Bienvenue "),
                 TextSpan(
@@ -209,11 +209,11 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 16))
+            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 13))
           ),
-          SizedBox(height: 24,),
+          SizedBox(height: 10,),
           EmotionGraph(stats: _stats),
-          SizedBox(height: 48),
+          SizedBox(height: 10),
           RichText(
             text: TextSpan(
               style: TextStyle(color: Colors.black, fontSize: 16),

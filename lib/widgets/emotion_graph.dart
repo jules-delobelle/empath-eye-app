@@ -14,46 +14,46 @@ class EmotionGraph extends StatelessWidget {
       child: PieChart(
         PieChartData(
           sectionsSpace: 4,
-          centerSpaceRadius: 50,
+          centerSpaceRadius: 35,
           sections: [
             PieChartSectionData(
               titleStyle: TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
               value: (stats["surprise"] ?? 0).toDouble(),
               color: Color(0xFFA42CE0),
-              radius: 70,
+              radius: 60,
               title: "Suprise",
             ),
             PieChartSectionData(
               titleStyle: TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
               value: (stats["colere"] ?? 0).toDouble(),
               color: Color(0xFFC72525),
-              radius: 70,
+              radius: 60,
               title: "Colère",
             ),
             PieChartSectionData(
               titleStyle: TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
               value: (stats["tristesse"] ?? 0).toDouble(),
               color: Color(0xFF3B72E9),
-              radius: 70,
+              radius: 60,
               title: "Tristesse",
             ),
             PieChartSectionData(
               titleStyle: TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
               value: (stats["joie"] ?? 0).toDouble(),
               color: Color(0xFFF3E243),
-              radius: 70,
+              radius: 60,
               title: "Joie",
             ),
           ]

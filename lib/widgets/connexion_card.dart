@@ -17,11 +17,11 @@ class ConnexionCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(Icons.bluetooth, size: 60),
+          Icon(Icons.bluetooth, size: 50),
           SizedBox(height: 16),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 16),  
+              style: TextStyle(color: Colors.black, fontSize: 14),  
               children: [
                 TextSpan(text: "Dernier téléchargement : "),
                 TextSpan(
