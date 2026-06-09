@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/detection_tile.dart';
 import '../models/detection.dart';
 import '../models/session.dart';
 import '../services/api_services.dart';
@@ -54,15 +55,15 @@ class _SessionScreenState extends State<SessionScreen>{
           children: [
             Text("Session du ${_session?.date ?? "Chargement en cours..."}"),
             Text("Interactions importantes"),
-            ..._importantDetections.map((detection) => ListTile(
-              title: Text(detection.emotion),
+            ..._importantDetections.map((detection) => DetectionTile(
+              detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
             )),
             Text("Interactions de la session"),
-            ..._detections.map((detection) => ListTile(
-              title: Text(detection.emotion),
-              onTap:() => Navigator.pushNamed(context, "/interaction", arguments: detection)
-            ))
+            ..._detections.map((detection) => DetectionTile(
+              detection: detection,
+              onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
+            )),
           ]
         )
       ),

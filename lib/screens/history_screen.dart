@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/detection_tile.dart';
 import '../services/api_services.dart';
 import '../providers/app_provider.dart';
 import '../models/enfant.dart';
@@ -58,17 +59,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
         child: Column(
           children: [
             Text("Interactions importantes des 7 derniers jours"),
-            ..._importantDetections.take(3).map((detection) => ListTile(
-              title: Text(detection.emotion),
-              onTap:() => Navigator.pushNamed(context, "/interaction", arguments: detection)
+            ..._importantDetections.take(3).map((detection) => DetectionTile(
+              detection: detection,
+              onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
             )),
             if (_importantDetections.length > 3 )ExpansionTile(
               title: Text("Voir plus"),
               children: [
-                ..._importantDetections.skip(3).map((detection) => ListTile(
-                  title: Text(detection.emotion),
-                  onTap:() => Navigator.pushNamed(context, "/interaction", arguments: detection),
-                ))
+                ..._importantDetections.skip(3).map((detection) => DetectionTile(
+                  detection: detection,
+                  onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
+                )),
               ]
             ),
             Text("Sessions"),
