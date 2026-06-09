@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../utils/colors.dart';
 
@@ -74,7 +75,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Interaction")),
+      appBar: CustomAppBar(titre: "Interaction"),
       drawer: const AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

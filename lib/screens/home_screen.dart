@@ -8,6 +8,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/connexion_card.dart';
 import '../widgets/connexion_dialog.dart';
 import '../widgets/emotion_graph.dart';
+import '../widgets/custom_app_bar.dart';
 import '../models/enfant.dart';
 import '../models/session.dart';
 import '../providers/app_provider.dart';
@@ -178,9 +179,7 @@ class _HomeScreenState extends State<HomeScreen>{
   Widget build(BuildContext context) {
     Enfant? enfant = Provider.of<AppProvider>(context).getEnfantSelectionne();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Accueil")
-        ),
+      appBar: CustomAppBar(titre: "Accueil"),
       drawer: AppDrawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

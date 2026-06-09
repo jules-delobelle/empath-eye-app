@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/custom_app_bar.dart';
 import '../models/quiz_result.dart';
 
 class QuizResultScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class QuizResultScreen extends StatelessWidget {
     int scoreTotal = resultat.scoreTotal;
     int nombreQuestions = resultat.nombreQuestions;
     return Scaffold(
-      appBar: AppBar(title: Text("Quiz")),
+      appBar: CustomAppBar(titre: "Quiz"),
       drawer: AppDrawer(),
       body: Column(
         children: [

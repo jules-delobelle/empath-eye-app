@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/detection_tile.dart';
+import '../widgets/custom_app_bar.dart';
 import '../services/api_services.dart';
 import '../providers/app_provider.dart';
 import '../models/enfant.dart';
@@ -53,7 +54,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Historique")), 
+      appBar: CustomAppBar(titre: "Historique"),
       drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Column(

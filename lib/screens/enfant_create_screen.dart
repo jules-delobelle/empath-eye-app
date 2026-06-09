@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/app_drawer.dart';
+import '../widgets/custom_app_bar.dart';
 import '../services/api_services.dart';
 
 class CreateEnfantScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _CreateEnfantScreenState extends State<CreateEnfantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Ajouter un enfant")),
+      appBar: CustomAppBar(titre: "Ajouter un enfant"),
       drawer: AppDrawer(),
       body: Center(
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/custom_app_bar.dart';
 import '../utils/colors.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("À propos")),
+      appBar: CustomAppBar(titre: "À propos"),
       drawer: const AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),

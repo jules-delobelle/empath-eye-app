@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/detection_tile.dart';
+import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../models/session.dart';
 import '../services/api_services.dart';
@@ -48,7 +49,7 @@ class _SessionScreenState extends State<SessionScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Session")),
+      appBar: CustomAppBar(titre: "Session"),
       drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Column( 
