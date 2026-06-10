@@ -4,6 +4,7 @@ import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../utils/colors.dart';
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 class InteractionScreen extends StatefulWidget {
   const InteractionScreen({super.key});
@@ -57,7 +58,7 @@ void didChangeDependencies() {
   }
 }
 
-  String _getDescriptionForEmotion(String? emotion) {
+String _getDescriptionForEmotion(String? emotion) {
   switch (emotion?.toLowerCase()) {
     case 'joie':
       return "La joie est une émotion positive ressentie en réponse à un événement agréable, une réussite ou une connexion sociale. "
@@ -88,6 +89,21 @@ void didChangeDependencies() {
   }
 }
 
+String _getEmotion(String? emotion){
+  switch (emotion?.toLowerCase()) {
+    case 'joie' :
+      return "Joie";
+    case 'tristesse' :
+      return "Tristesse";
+    case 'colere' :
+      return "Colère";
+    case 'surprise' :
+      return "Surprise";
+    default :
+      return "Émotion non reconnue";
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,20 +116,18 @@ void didChangeDependencies() {
           children: [
             // ── Date & émotion ──────────────────────────────────────
             Text(
-              "${_detection!.heure}",
+              DateFormat('dd/MM/yy, HH\'h\'mm' , 'fr').format(_detection!.heure!),
               style: TextStyle(
                 fontSize: 14,
-                color: const Color.fromARGB(255, 0, 0, 0),
                 letterSpacing: 0.5,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              _detection!.emotion,
+              _getEmotion(_detection!.emotion),
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 0, 0, 0),
               ),
             ),
 
