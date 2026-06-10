@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/detection_tile.dart';
+import '../widgets/session_tile.dart';
 import '../widgets/custom_app_bar.dart';
 import '../services/api_services.dart';
 import '../providers/app_provider.dart';
@@ -78,8 +79,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ]
             ),
             Text("Sessions"),
-            ..._sessions.map((session) => ListTile(
-              title: Text("${session.date}"),
+            ..._sessions.map((session) => SessionTile(
+              session: session,
               onTap:() => Navigator.pushNamed(context, '/session', arguments: session) 
             ))
           ]
