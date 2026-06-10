@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'providers/app_provider.dart';
 import 'services/api_services.dart';
 import 'models/enfant.dart';
+import 'utils/colors.dart';
 
 import 'screens/login_screen.dart'; 
 import 'screens/exercises_screen.dart';
@@ -71,7 +72,12 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/create_enfant': (context) => const CreateEnfantScreen(),
         '/register': (context) => const RegisterScreen(),
-      }
+      },
+      theme: ThemeData(
+        textTheme : TextTheme(
+          bodyMedium: TextStyle(color: appColors["violet_logo"]),
+        )
+      )
     );
   }
 }
