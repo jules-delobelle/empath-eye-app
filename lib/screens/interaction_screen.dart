@@ -3,6 +3,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../utils/colors.dart';
+import 'dart:math';
 
 class InteractionScreen extends StatefulWidget {
   const InteractionScreen({super.key});
@@ -14,32 +15,47 @@ class InteractionScreen extends StatefulWidget {
 class _InteractionScreenState extends State<InteractionScreen> {
   Detection? _detection;
 
-  // Images placeholder (à remplacer par les vraies images)
-  final List<String?> _images = [null, null, null, null];
+List<String> _getRandomImagesForEmotion(String? emotion, {int count = 4}) {
+  final rand = Random();
+  final String folder = emotion?.toLowerCase() ?? 'neutre';
+  
+  // Génère 4 numéros uniques entre 1 et 15
+  final List<int> numbers = List.generate(15, (i) => i + 1)..shuffle(rand);
+  final selected = numbers.take(count).toList();
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_detection == null) {
-      final detection = ModalRoute.of(context)!.settings.arguments as Detection;
-      setState(() { _detection = detection; });
-    }
-  }
+  return selected
+      .map((n) => 'assets/images/$folder/$folder$n.jpg')
+      .toList();
+}
 
-  String _getEmojiForEmotion(String? emotion) {
-    switch (emotion?.toLowerCase()) {
-      case 'joie':
-        return '😄';
-      case 'tristesse':
-        return '😢';
-      case 'surprise':
-        return '😲';
-      case 'colere':
-        return '😠';
-      default:
-        return '😐';
-    }
+List<String> _emotionImages = [];
+
+ @override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  if (_detection == null) {
+    final detection = ModalRoute.of(context)!.settings.arguments as Detection;
+    setState(() {
+      _detection = detection;
+      _emotionImages = _getRandomImagesForEmotion(detection.emotion);
+    });
   }
+}
+
+  String _getImageForEmotion(String? emotion) {
+  switch (emotion?.toLowerCase()) {
+    case 'joie':
+      return 'assets/images/mascotte_joie.png';
+    case 'tristesse':
+      return 'assets/images/mascotte_tristesse.png';
+    case 'surprise':
+      return 'assets/images/mascotte_surprise.png';
+    case 'colere':
+      return 'assets/images/mascotte_colere.png';
+    default:
+      return 'assets/images/mascotte_neutre.png';
+  }
+}
 
   String _getDescriptionForEmotion(String? emotion) {
   switch (emotion?.toLowerCase()) {
@@ -104,9 +120,11 @@ class _InteractionScreenState extends State<InteractionScreen> {
             const SizedBox(height: 24),
 
             // ── Smiley ──────────────────────────────────────────────
-            Text(
-              _getEmojiForEmotion(_detection?.emotion),
-              style: const TextStyle(fontSize: 80),
+            Image.asset(
+              _getImageForEmotion(_detection?.emotion),
+              width: 120,
+              height: 120,
+              fit: BoxFit.contain,
             ),
 
 
@@ -149,38 +167,12 @@ class _InteractionScreenState extends State<InteractionScreen> {
                 childAspectRatio: 1,
               ),
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey[300]!),
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    _emotionImages[index],
+                    fit: BoxFit.cover,
                   ),
-                  child: _images[index] != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            _images[index]!,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_photo_alternate_outlined,
-                              size: 36,
-                              color: Colors.grey[400],
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              "Image ${index + 1}",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[500],
-                              ),
-                            ),
-                          ],
-                        ),
                 );
               },
             ),
