@@ -45,15 +45,15 @@ void didChangeDependencies() {
   String _getImageForEmotion(String? emotion) {
   switch (emotion?.toLowerCase()) {
     case 'joie':
-      return 'assets/images/mascotte_joie.png';
+      return 'assets/images/mascotte/mascotte_joie.png';
     case 'tristesse':
-      return 'assets/images/mascotte_tristesse.png';
+      return 'assets/images/mascotte/mascotte_tristesse.png';
     case 'surprise':
-      return 'assets/images/mascotte_surprise.png';
+      return 'assets/images/mascotte/mascotte_surprise.png';
     case 'colere':
-      return 'assets/images/mascotte_colere.png';
+      return 'assets/images/mascotte/mascotte_colere.png';
     default:
-      return 'assets/images/mascotte_neutre.png';
+      return 'assets/images/mascotte/mascotte_neutre.png';
   }
 }
 
