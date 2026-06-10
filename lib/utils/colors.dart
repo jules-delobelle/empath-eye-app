@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 const Map<String, Color> appColors = {
   'vert_clair': Color(0xFF9CC78D),
-  'vert_fonce': Color(0xFF276811)
+  'vert_fonce': Color(0xFF276811),
+  'violet_logo': Color(0xFF482F48)
 };
 
 const Map<String, Color> emotionColors = {

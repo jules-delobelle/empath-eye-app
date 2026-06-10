@@ -39,7 +39,7 @@ class _AppDrawerState extends State<AppDrawer>{
             child: Text("Empath'Eye"),
           ),
           ListTile(
-            title: Text("Accueil"),
+            title: Text("Accueil"), 
             onTap: () {Navigator.pushNamed(context, '/home');}
           ),
           ListTile(
