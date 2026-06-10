@@ -63,7 +63,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ..._importantDetections.take(3).map((detection) => DetectionTile(
               detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
-              showDate: true
+              showDate: true,
+              showSeconds: false
             )),
             if (_importantDetections.length > 3 )ExpansionTile(
               title: Text("Voir plus"),
@@ -71,7 +72,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ..._importantDetections.skip(3).map((detection) => DetectionTile(
                   detection: detection,
                   onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
-                  showDate: true
+                  showDate: true,
+                  showSeconds: false
                 ))
               ]
             ),

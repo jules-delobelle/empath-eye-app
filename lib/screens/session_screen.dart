@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../widgets/app_drawer.dart';
 import '../widgets/detection_tile.dart';
 import '../widgets/custom_app_bar.dart';
@@ -54,18 +56,53 @@ class _SessionScreenState extends State<SessionScreen>{
       body: SingleChildScrollView(
         child: Column( 
           children: [
-            Text("Session du ${_session?.date ?? "Chargement en cours..."}"),
-            Text("Interactions importantes"),
+            Text(
+              _session != null
+              ? "Session du ${DateFormat('d MMMM yyyy', 'fr').format(_session!.date!)}"
+              : "Chargement...",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children:[
+                  Text(
+                    "Interactions importantes",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey)
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Divider()
+                    )
+                ]
+              )
+            ),
             ..._importantDetections.map((detection) => DetectionTile(
               detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
-              showDate: false
+              showDate: false,
+              showSeconds: true
             )),
-            Text("Interactions de la session"),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children:[
+                  Text(
+                    "Interactions de la session",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey)
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Divider()
+                    )
+                ]
+              )
+            ),
             ..._detections.map((detection) => DetectionTile(
               detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
-              showDate: false
+              showDate: false,
+              showSeconds: true
             )),
           ]
         )
