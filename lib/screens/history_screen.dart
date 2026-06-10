@@ -9,6 +9,7 @@ import '../providers/app_provider.dart';
 import '../models/enfant.dart';
 import '../models/session.dart';
 import '../models/detection.dart';
+import '../utils/colors.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -60,7 +61,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text("Interactions importantes des 7 derniers jours"),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children:[
+                  Text(
+                    "Interactions importantes des 7 derniers jours",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"],),
+                    softWrap: true,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Divider()
+                    )
+                ]
+              )
+            ),
             ..._importantDetections.take(3).map((detection) => DetectionTile(
               detection: detection,
               onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
@@ -78,7 +94,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ))
               ]
             ),
-            Text("Sessions"),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children:[
+                  Text(
+                    "Sessions",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"])
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Divider()
+                    )
+                ]
+              )
+            ),
             ..._sessions.map((session) => SessionTile(
               session: session,
               onTap:() => Navigator.pushNamed(context, '/session', arguments: session) 
