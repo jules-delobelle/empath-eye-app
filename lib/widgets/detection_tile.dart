@@ -43,11 +43,11 @@ class DetectionTile extends StatelessWidget{
             Text(showDate 
               ? DateFormat('dd/MM/yyyy, HH\'h\'mm', 'fr').format(detection!.heure!)
               : showSeconds 
-                  ? DateFormat('HH\'h\'mm\'s\'ss', 'fr').format(detection!.heure!)
+                  ? DateFormat('HH\'h\'mm\'m\'ss\'s\'', 'fr').format(detection!.heure!)
                   : DateFormat('HH\'h\'mm', 'fr').format(detection!.heure!)
             ),
             Spacer(),
-            Icon(Icons.chevron_right, color: Colors.grey),
+            Icon(Icons.chevron_right, color: appColors["vert_fonce"], size: 30),
             SizedBox(width: 8)
           ]
         )
