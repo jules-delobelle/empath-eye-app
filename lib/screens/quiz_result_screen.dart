@@ -41,12 +41,25 @@ class QuizResultScreen extends StatelessWidget {
                     resultat.questionsParEmotion[entry.key]! *
                     100;
                 return _EmotionBar(
-                  label: entry.key,
+                  label: "${entry.key[0].toUpperCase()}${entry.key.substring(1)}",
                   percent: pct,
                   color: emotionColors[entry.key] ?? const Color.fromARGB(255, 197, 95, 178),
                 );
               }),
             ],
+            SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/exercises'),
+                child: Text(
+                  "Recommencer un entraînement",
+                  style: TextStyle(
+                    color: appColors['vert_fonce'],
+                    ),
+                  ),
+              ),
+            ),
           ],
         ),
       ),
@@ -94,10 +107,10 @@ class _ScoreGaugeState extends State<_ScoreGauge>
           const Text(
             "SCORE GLOBAL",
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
               letterSpacing: 1.1,
-              color: Color(0xFF888780),
+              color: Color.fromARGB(255, 179, 179, 179),
             ),
           ),
           const SizedBox(height: 12),
@@ -112,13 +125,13 @@ class _ScoreGaugeState extends State<_ScoreGauge>
                 width: 220,
                 height: 120,
                 child: Align(
-                  alignment: const Alignment(0, 0.5),
+                  alignment: const Alignment(0, 1),
                   child: Text(
                     "${(_anim.value * widget.percent).round()}%",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w500,
-                      color:  Color(0xFF482F48),
+                      color:  appColors['violet_logo'],
                     ),
                   ),
                 ),
@@ -245,9 +258,9 @@ class _EmotionBarState extends State<_EmotionBar>
             children: [
               Text(
                 widget.label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
-                  color:  Color(0xFF482F48),
+                  color: appColors['violet_logo'],
                 ),
               ),
               AnimatedBuilder(
