@@ -83,6 +83,8 @@ class _AppDrawerState extends State<AppDrawer> {
                             onTap: () {
                               Provider.of<AppProvider>(context, listen: false).setEnfantSelectionne(enfant);
                               ApiServices.saveEnfantId(enfant);
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, '/home');
                             },
                             trailing: IconButton(
                               icon: Icon(Icons.remove_circle_outline),
