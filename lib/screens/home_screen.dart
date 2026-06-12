@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: TextStyle(color: appColors["violet_logo"], fontSize: 18),
               children: [
                 TextSpan(text: "Bienvenue "),
                 TextSpan(
@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 10),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: TextStyle(color: appColors["violet_logo"], fontSize: 16),
               children: [
                 TextSpan(text: "Prêt à "),
                 TextSpan(

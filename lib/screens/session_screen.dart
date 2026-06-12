@@ -7,6 +7,7 @@ import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../models/session.dart';
 import '../services/api_services.dart';
+import '../utils/colors.dart';
 
 class SessionScreen extends StatefulWidget {
 
@@ -68,7 +69,7 @@ class _SessionScreenState extends State<SessionScreen>{
                 children:[
                   Text(
                     "Interactions importantes",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey)
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"])
                   ),
                   SizedBox(width: 8),
                   Expanded(
@@ -89,7 +90,7 @@ class _SessionScreenState extends State<SessionScreen>{
                 children:[
                   Text(
                     "Interactions de la session",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey)
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"])
                   ),
                   SizedBox(width: 8),
                   Expanded(
