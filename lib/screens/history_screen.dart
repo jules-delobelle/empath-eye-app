@@ -74,6 +74,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   Expanded(
                     child: Divider()
                     ),
+                  SizedBox(width: 8),
                   Text(
                     "7 derniers jours",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"],)
