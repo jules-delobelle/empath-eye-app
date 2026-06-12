@@ -8,6 +8,14 @@ import '../utils/colors.dart';
 class QuizResultScreen extends StatelessWidget {
   const QuizResultScreen({super.key});
 
+  String _getMascottes(double percent) {
+    if (percent < 10) return 'assets/images/mascotte/mascotte_surprise.png';
+    if (percent < 30) return 'assets/images/mascotte/mascotte_tristesse.png';
+    if (percent < 60) return 'assets/images/mascotte/mascotte_livre.png';
+    if (percent < 80) return 'assets/images/mascotte/mascotte_pouce.png';
+    return 'assets/images/mascotte/mascotte_neutre.png';
+  }
+
   @override
   Widget build(BuildContext context) {
     final QuizResultat resultat =
@@ -23,16 +31,23 @@ class QuizResultScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: Image.asset(
+                _getMascottes(scorePercent),
+                height: 150,
+              ),
+            ),
+            const SizedBox(height: 24),
             _ScoreGauge(percent: scorePercent),
             if (resultat.type == "grand_quiz") ...[
               const SizedBox(height: 32),
-              const Text(
+              Text(
                 "DÉTAIL PAR ÉMOTION",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1.1,
-                  color: Color(0xFF888780),
+                  color: appColors['violet_clair'],
                 ),
               ),
               const SizedBox(height: 16),
@@ -56,8 +71,8 @@ class QuizResultScreen extends StatelessWidget {
                   "Recommencer un entraînement",
                   style: TextStyle(
                     color: appColors['vert_fonce'],
-                    ),
                   ),
+                ),
               ),
             ),
           ],
@@ -104,13 +119,13 @@ class _ScoreGaugeState extends State<_ScoreGauge>
     return Center(
       child: Column(
         children: [
-          const Text(
+          Text(
             "SCORE GLOBAL",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
               letterSpacing: 1.1,
-              color: Color.fromARGB(255, 179, 179, 179),
+              color: appColors['violet_clair'],
             ),
           ),
           const SizedBox(height: 12),
@@ -131,7 +146,7 @@ class _ScoreGaugeState extends State<_ScoreGauge>
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w500,
-                      color:  appColors['violet_logo'],
+                      color: appColors['violet_logo'],
                     ),
                   ),
                 ),
@@ -152,11 +167,11 @@ class _GaugePainter extends CustomPainter {
   List<Color> get _gradientColors {
     final pct = progress * 100;
     if (pct < 40) {
-      return const [Color.fromARGB(255, 240, 135, 135), Color(0xFFE24B4A)]; // rouge
+      return const [Color.fromARGB(255, 240, 135, 135), Color(0xFFE24B4A)];
     } else if (pct < 70) {
-      return const [Color(0xFFFAC775), Color.fromARGB(255, 239, 156, 39)]; // orange
+      return const [Color(0xFFFAC775), Color.fromARGB(255, 239, 156, 39)];
     } else {
-      return const [Color.fromARGB(255, 159, 225, 170), Color.fromARGB(255, 29, 158, 63)]; // vert
+      return const [Color.fromARGB(255, 159, 225, 170), Color.fromARGB(255, 29, 158, 63)];
     }
   }
 
