@@ -7,7 +7,7 @@ import '../models/detection.dart';
 import '../models/session.dart';
 
 class ApiServices {
-  static const baseUrl = "http://10.221.202.81:8000/api";
+  static const baseUrl = "https://stingray-app-k65jv.ondigitalocean.app/api";
   static const _storage = FlutterSecureStorage();
 
   static Future<String?> login(String username, String password) async{
