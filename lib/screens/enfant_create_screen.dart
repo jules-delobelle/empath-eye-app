@@ -26,14 +26,15 @@ class _CreateEnfantScreenState extends State<CreateEnfantScreen> {
       body: Padding(
         padding: EdgeInsets.all(24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 24),
             Image.asset(
               "assets/images/mascotte/mascotte_love.png",
               height: 200,
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 32),
             TextField(
               controller: _prenomController,
               decoration: InputDecoration(
