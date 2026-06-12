@@ -13,7 +13,7 @@ class QuizResultScreen extends StatelessWidget {
     if (percent < 30) return 'assets/images/mascotte/mascotte_tristesse.png';
     if (percent < 60) return 'assets/images/mascotte/mascotte_livre.png';
     if (percent < 80) return 'assets/images/mascotte/mascotte_pouce.png';
-    return 'assets/images/mascotte/mascotte_neutre.png';
+    return 'assets/images/mascotte/mascotte_joie.png';
   }
 
   @override
