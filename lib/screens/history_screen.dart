@@ -66,14 +66,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
               child: Row(
                 children:[
                   Text(
-                    "Interactions importantes des 7 derniers jours",
+                    "Émotions importantes",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"],),
                     softWrap: true,
                   ),
                   SizedBox(width: 8),
                   Expanded(
                     child: Divider()
-                    )
+                    ),
+                  Text(
+                    "7 derniers jours",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: appColors["violet_clair"],)
+                  ),
                 ]
               )
             ),
