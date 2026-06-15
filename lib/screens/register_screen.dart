@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/api_services.dart';
+import '../utils/colors.dart';
 
 class RegisterScreen extends StatefulWidget{
   const RegisterScreen({super.key});
@@ -54,7 +55,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Créer un compte"),
+              Image.asset(
+                'assets/images/logo/logo.png',
+                height: 100,
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'Création compte',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color : appColors['violet_logo']),
+              ),
               const SizedBox(height: 32),
               TextField(
                 controller: _usernameController,
@@ -86,7 +95,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _handleRegister,
-                  child: const Text('Créer un compte')
+                  child: Text(
+                    'Créer un compte',
+                    style : TextStyle(
+                      color : appColors['violet_logo'],
+                    ),
+                  )
                 ),
               ),
             ]

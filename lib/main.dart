@@ -74,10 +74,17 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
       },
       theme: ThemeData(
-        textTheme : TextTheme(
-          bodyMedium: TextStyle(color: appColors["violet_logo"]),
-        )
-      )
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: appColors['violet_logo'] ?? Colors.black),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: appColors['violet_logo'] ?? Colors.black, width: 2),
+          ),
+          labelStyle: TextStyle(color: appColors['violet_clair'] ?? Colors.black),
+          floatingLabelStyle: TextStyle(color: appColors['violet_logo'] ?? Colors.black),
+        ),
+      ),
     );
   }
 }

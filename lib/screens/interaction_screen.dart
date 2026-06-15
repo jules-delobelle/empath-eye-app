@@ -20,9 +20,11 @@ class _InteractionScreenState extends State<InteractionScreen> {
 List<String> _getRandomImagesForEmotion(String? emotion, {int count = 4}) {
   final rand = Random();
   final String folder = emotion?.toLowerCase() ?? 'neutre';
-  
-  // Génère 4 numéros uniques entre 1 et 15
-  final List<int> numbers = List.generate(15, (i) => i + 1)..shuffle(rand);
+
+  // Nombre max d'images selon l'émotion
+  final int maxImages = (folder == 'neutre') ? 4 : 15;
+
+  final List<int> numbers = List.generate(maxImages, (i) => i + 1)..shuffle(rand);
   final selected = numbers.take(count).toList();
 
   return selected
