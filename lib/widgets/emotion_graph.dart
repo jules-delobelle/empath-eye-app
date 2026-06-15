@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../utils/colors.dart';
+import '../utils/get_emotion.dart';
 
 class EmotionGraph extends StatelessWidget {
   final Map<String, int> stats;
@@ -25,7 +26,7 @@ class EmotionGraph extends StatelessWidget {
               value: (stats["surprise"] ?? 0).toDouble(),
               color: emotionColors["surprise"],
               radius: 60,
-              title: "Suprise",
+              title: getEmotion("surprise"),
             ),
             PieChartSectionData(
               titleStyle: TextStyle(
@@ -35,7 +36,7 @@ class EmotionGraph extends StatelessWidget {
               value: (stats["colere"] ?? 0).toDouble(),
               color: emotionColors["colere"],
               radius: 60,
-              title: "Colère",
+              title: getEmotion("colere"),
             ),
             PieChartSectionData(
               titleStyle: TextStyle(
@@ -45,7 +46,7 @@ class EmotionGraph extends StatelessWidget {
               value: (stats["tristesse"] ?? 0).toDouble(),
               color: emotionColors["tristesse"],
               radius: 60,
-              title: "Tristesse",
+              title: getEmotion("tristesse"),
             ),
             PieChartSectionData(
               titleStyle: TextStyle(
@@ -55,7 +56,7 @@ class EmotionGraph extends StatelessWidget {
               value: (stats["joie"] ?? 0).toDouble(),
               color: emotionColors["joie"],
               radius: 60,
-              title: "Joie",
+              title: getEmotion("joie"),
             ),
           ]
         )

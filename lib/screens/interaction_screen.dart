@@ -3,6 +3,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../utils/colors.dart';
+import '../utils/get_emotion.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
 
@@ -89,20 +90,6 @@ String _getDescriptionForEmotion(String? emotion) {
   }
 }
 
-String _getEmotion(String? emotion){
-  switch (emotion?.toLowerCase()) {
-    case 'joie' :
-      return "Joie";
-    case 'tristesse' :
-      return "Tristesse";
-    case 'colere' :
-      return "Colère";
-    case 'surprise' :
-      return "Surprise";
-    default :
-      return "Émotion non reconnue";
-  }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +111,7 @@ String _getEmotion(String? emotion){
             ),
             const SizedBox(height: 4),
             Text(
-              _getEmotion(_detection!.emotion),
+              getEmotion(_detection!.emotion),
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
