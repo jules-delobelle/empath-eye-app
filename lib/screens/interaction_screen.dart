@@ -54,8 +54,10 @@ void didChangeDependencies() {
       return 'assets/images/mascotte/mascotte_surprise.png';
     case 'colere':
       return 'assets/images/mascotte/mascotte_colere.png';
-    default:
+    case 'neutre':
       return 'assets/images/mascotte/mascotte_neutre.png';
+    default:
+      return 'assets/images/mascotte/mascotte_dodo.png';
   }
 }
 
@@ -85,6 +87,11 @@ String _getDescriptionForEmotion(String? emotion) {
           "La tension musculaire augmente, le visage peut rougir, et la voix devient plus forte et plus grave. "
           "La respiration s'accélère et le corps adopte une posture de confrontation, prêt à réagir.";
 
+    case 'neutre':
+      return "L'émotion neutre se reconnaît à l'absence de tensions musculaires visibles sur le visage :"
+        "les sourcils sont en position naturelle et horizontale, sans froncement ni élévation."
+        "Les muscles autour des yeux sont relâchés, le regard est droit et sans plissement des paupières."
+        "Le visage donne une impression d'équilibre et de calme, sans asymétrie ni mouvement expressif marqué.";
     default:
       return "Émotion non reconnue.";
   }
