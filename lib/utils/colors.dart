@@ -12,4 +12,5 @@ const Map<String, Color> emotionColors = {
   'tristesse': Color(0xFF3B72E9),
   'colere': Color(0xFFC72525),
   'surprise': Color(0xFFA42CE0),
+  'neutre': Color(0xFF9E9E9E)
 };
