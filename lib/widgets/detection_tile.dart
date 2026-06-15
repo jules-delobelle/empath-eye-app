@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../models/detection.dart';
 import '../utils/colors.dart';
+import '../utils/get_emotion.dart';
 
 
 class DetectionTile extends StatelessWidget{
@@ -35,7 +36,7 @@ class DetectionTile extends StatelessWidget{
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12))
               ),
               child: Text(
-                "${detection!.emotion[0].toUpperCase()}${detection!.emotion.substring(1)}",
+                getEmotion(detection!.emotion),
                 style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
               )
             ),
