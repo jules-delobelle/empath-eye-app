@@ -8,6 +8,8 @@ String getEmotion(String? emotion){
       return "Colère";
     case 'surprise' :
       return "Surprise";
+    case 'neutre':
+      return 'Neutre';
     default :
       return "Émotion non reconnue";
   }
