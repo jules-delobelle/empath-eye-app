@@ -4,6 +4,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/quiz_result.dart';
 import '../utils/colors.dart';
+import '../utils/get_emotion.dart';
 
 class QuizResultScreen extends StatelessWidget {
   const QuizResultScreen({super.key});
@@ -56,7 +57,7 @@ class QuizResultScreen extends StatelessWidget {
                     resultat.questionsParEmotion[entry.key]! *
                     100;
                 return _EmotionBar(
-                  label: "${entry.key[0].toUpperCase()}${entry.key.substring(1)}",
+                  label: getEmotion(entry.key),
                   percent: pct,
                   color: emotionColors[entry.key] ?? const Color.fromARGB(255, 197, 95, 178),
                 );

@@ -6,6 +6,7 @@ import '../models/quiz_question.dart';
 import '../models/quiz_result.dart';
 import '../services/quiz_service.dart';
 import '../utils/colors.dart';
+import '../utils/get_emotion.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -184,7 +185,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Text(emotion),
+                    child: Text(getEmotion(emotion)),
                   );
                 }).toList(),
               ),
@@ -230,7 +231,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  _emotionAffichee ?? "",
+                  getEmotion(_emotionAffichee),
                   style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
