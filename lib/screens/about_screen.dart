@@ -17,10 +17,11 @@ class AboutScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Titre
-            const Center(
+            Center(
               child: Text(
                 "À PROPOS",
                 style: TextStyle(
+                  color: appColors['violet_logo'],
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 3,
@@ -75,7 +76,10 @@ class AboutScreen extends StatelessWidget {
       flex: 3,
       child: Text(
         text,
-        style: const TextStyle(fontSize: 16),
+        style: TextStyle(
+          fontSize: 16,
+          color : appColors['violet_logo'],
+        ),
       ),
     );
 

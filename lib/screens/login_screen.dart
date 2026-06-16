@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../services/api_services.dart';
 import '../providers/app_provider.dart';
+import '../utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,6 +39,16 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) setState(() => _isLoading = false);
     }
 
+    if (token == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Identifiants incorrects. Veuillez réessayer.'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
     if (token != null) {
       if (!mounted) return;
       Provider.of<AppProvider>(context, listen: false).setToken(token);
@@ -54,9 +65,14 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Image.asset(
+                'assets/images/logo/logo.png',
+                height: 100,
+              ),
+              const SizedBox(height: 24),
+              Text(
                 'Connexion',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color : appColors['violet_logo']),
               ),
               const SizedBox(height: 32),
               TextField(
@@ -64,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Nom d'utilisateur",
+
                 ),
               ),
               const SizedBox(height: 16),
@@ -79,9 +96,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // TODO: navigation mot de passe oublié
                   },
-                  child: const Text('Mot de passe oublié ?'),
+                  child: Text(
+                    'Mot de passe oublié ?',
+                    style : TextStyle(
+                      color : appColors['violet_logo'],
+                    )
+                    ),
                 ),
               ),
               const SizedBox(height: 4),
@@ -98,16 +119,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text('Se connecter'),
+                      : Text('Se connecter',
+                      style : TextStyle(
+                      color : appColors['violet_logo'],
+                    )
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 children: [
                   Expanded(child: Divider()),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text('ou', style: TextStyle(color: Colors.grey)),
+                    child: Text('ou', style: TextStyle(color: appColors['violet_clair'])),
                   ),
                   Expanded(child: Divider()),
                 ],
@@ -119,7 +144,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: const Text('Créer un compte'),
+                  child: Text(
+                    'Créer un compte',
+                    style : TextStyle(
+                      color : appColors['violet_logo'],
+                    )
+                  ),
                 ),
               ),
             ],
