@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 13))
+            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 14))
           ),
           SizedBox(height: 10,),
           EmotionGraph(stats: _stats),
