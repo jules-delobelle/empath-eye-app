@@ -23,7 +23,7 @@ class _CreateEnfantScreenState extends State<CreateEnfantScreen> {
     return Scaffold(
       appBar: CustomAppBar(titre: "Ajouter un enfant"),
       drawer: AppDrawer(),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
