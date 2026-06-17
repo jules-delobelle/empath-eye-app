@@ -28,7 +28,7 @@ List<String> _getRandomImagesForEmotion(String? emotion, {int count = 4}) {
   final selected = numbers.take(count).toList();
 
   return selected
-      .map((n) => 'assets/images/$folder/$folder$n.jpg')
+      .map((n) => 'assets/images/emotions/$folder/$folder$n.jpg')
       .toList();
 }
 
