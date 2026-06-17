@@ -19,7 +19,7 @@ class BLEService {
   }
 
   static Future<void> connect(BluetoothDevice device) async{
-    device.connect();
+    await device.connect();
   }
 
   static Future<void> disconnect(BluetoothDevice device) async{

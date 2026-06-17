@@ -133,26 +133,39 @@ class _HomeScreenState extends State<HomeScreen>{
 
     if(sessionDuJour == null) return;
 
-    await for (var paquet in BLEService.listenTransfer(lunettes.device)){
-      try{
+    await for (var paquet in BLEService.listenTransfer(lunettes.device)) {
+      bool estMetadonnee = false;
+
+      try {
         dynamic json = jsonDecode(utf8.decode(paquet));
-        if(json["name"] == "__END__"){
+        estMetadonnee = true;
+
+        if (json["name"] == "__END__") {
           break;
         }
 
         tailleAttendue = json["size"];
         buffer = [];
-      }catch(e){
+      } catch (e) {
+        estMetadonnee = false;
+      }
+
+      if (!estMetadonnee) {
         buffer.addAll(paquet);
 
-        if(buffer.length >= tailleAttendue){
-          Map detectionJson = jsonDecode(utf8.decode(buffer));
-          await ApiServices.createDetection(
-            token, 
-            sessionDuJour.idSession, 
-            detectionJson["emotion"], 
-            DateTime.parse(detectionJson["heure"]), 
-            detectionJson["important"]);
+        if (tailleAttendue > 0 && buffer.length >= tailleAttendue) {
+          try {
+            Map detectionJson = jsonDecode(utf8.decode(buffer));
+            await ApiServices.createDetection(
+              token,
+              sessionDuJour.idSession,
+              detectionJson["emotion"],
+              DateTime.parse(detectionJson["heure"]),
+              detectionJson["important"],
+            );
+          } catch (e) {
+            print("Erreur lors du traitement de la détection : $e");
+          }
         }
       }
     }
