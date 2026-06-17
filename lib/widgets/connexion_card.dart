@@ -19,11 +19,11 @@ class ConnexionCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(Icons.bluetooth, size: 50),
+          Icon(Icons.bluetooth, size: 50, color : appColors['vert_fonce']),
           SizedBox(height: 16),
           RichText(
             text: TextSpan(
-              style: TextStyle(color: Colors.black, fontSize: 14),  
+              style: TextStyle(color:appColors['vert_fonce'], fontSize: 14),  
               children: [
                 TextSpan(text: "Dernier téléchargement : "),
                 TextSpan(
@@ -31,7 +31,7 @@ class ConnexionCard extends StatelessWidget {
                       dernierTelechargement != null 
                       ? "Dernier téléchargement : ${DateFormat('d MMMM yyyy, HH\'h\'mm', 'fr').format(dernierTelechargement!)}"
                       : "Aucun téléchargement",
-                    style: TextStyle(fontWeight: FontWeight.bold)
+                    style: TextStyle(fontWeight: FontWeight.bold, color: appColors['vert_fonce'])
                 ),
               ]
             )
