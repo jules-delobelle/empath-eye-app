@@ -13,7 +13,7 @@ class QuizService {
       List<QuizQuestion> questionsEmotion = [];
 
       for (int i = 1; i <= imagesParEmotion; i++){
-        questionsEmotion.add(QuizQuestion(path: "assets/images/$emotion/$emotion$i.jpg", emotion: emotion));
+        questionsEmotion.add(QuizQuestion(path: "assets/images/emotions/$emotion/$emotion$i.jpg", emotion: emotion));
       }
 
       questionsEmotion.shuffle();
