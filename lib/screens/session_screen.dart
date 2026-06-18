@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/app_drawer.dart';
-import '../widgets/detection_tile.dart';
+import '../widgets/tiles/detection_tile.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/detection.dart';
 import '../models/session.dart';

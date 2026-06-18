@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../widgets/app_drawer.dart';
-import '../widgets/connexion_card.dart';
-import '../widgets/connexion_dialog.dart';
+import '../widgets/connexion/connexion_card.dart';
+import '../widgets/connexion/connexion_dialog.dart';
 import '../widgets/emotion_graph.dart';
 import '../widgets/custom_app_bar.dart';
 import '../models/enfant.dart';

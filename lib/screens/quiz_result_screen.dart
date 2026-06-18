@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_app_bar.dart';
-import '../models/quiz_result.dart';
+import '../models/quiz/quiz_result.dart';
 import '../utils/colors.dart';
 import '../utils/get_emotion.dart';
 

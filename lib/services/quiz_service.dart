@@ -1,4 +1,4 @@
-import '../models/quiz_question.dart';
+import '../models/quiz/quiz_question.dart';
 
 class QuizService {
   

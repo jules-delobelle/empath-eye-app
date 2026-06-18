@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/home_screen.dart';
+import '../../screens/home_screen.dart';
 
 class ConnexionDialog extends StatelessWidget{
   final EtatConnexion etat;

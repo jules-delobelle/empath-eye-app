@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/detection.dart';
-import '../utils/colors.dart';
-import '../utils/get_emotion.dart';
+import '../../models/detection.dart';
+import '../../utils/colors.dart';
+import '../../utils/get_emotion.dart';
 
 
 class DetectionTile extends StatelessWidget{

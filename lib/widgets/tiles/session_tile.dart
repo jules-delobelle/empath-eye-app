@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/session.dart';
-import '../utils/colors.dart';
+import '../../models/session.dart';
+import '../../utils/colors.dart';
 
 
 class SessionTile extends StatelessWidget{
