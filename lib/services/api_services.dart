@@ -142,6 +142,8 @@ class ApiServices {
                 "Authorization": "Bearer $token"},
       body: jsonEncode({"id_session": sessionID, "emotion": emotion, "heure": heure.toIso8601String(), "important": important})
     );
+    print("Status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
     if(response.statusCode == 201){
       return true;
     }

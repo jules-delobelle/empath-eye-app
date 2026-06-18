@@ -7,12 +7,11 @@ class BLEService {
   static const String transferUUID = "fbd3e679-420f-4027-86ac-528d8251ae94";
   static const String commandUUID = "5ef1754d-6049-4a93-a80e-9f162316b6ae";
 
-  static Stream<List<ScanResult>> scanDevices() {
-      FlutterBluePlus.startScan(
-      timeout: Duration(seconds: 5)
-     );
-     return FlutterBluePlus.scanResults;
-  }
+  static Future<List<ScanResult>> scanDevices() async {
+    await FlutterBluePlus.startScan(timeout: Duration(seconds: 5));
+    await FlutterBluePlus.isScanning.where((scanning) => scanning == false).first;
+    return FlutterBluePlus.lastScanResults;
+  } 
 
   static void stopScan() async{
     FlutterBluePlus.stopScan();
@@ -58,22 +57,27 @@ class BLEService {
   }
 
   static Stream<List<int>> listenTransfer(BluetoothDevice device) async*{
-    List<BluetoothService> services = await device.discoverServices();
-    for (var service in services){
-      if(service.uuid.toString() == serviceUUID){
-        List<BluetoothCharacteristic> characteristics = service.characteristics;
-        for (var characteristic in characteristics){
-          if (characteristic.uuid.toString() == transferUUID){
-            await characteristic.setNotifyValue(true);
-
-            yield* characteristic.onValueReceived;
-
-            return;
-          }
+  print("listenTransfer démarré");
+  List<BluetoothService> services = await device.discoverServices();
+  print("Services découverts: ${services.length}");
+  for (var service in services){
+    if(service.uuid.toString() == serviceUUID){
+      print("Service trouvé !");
+      List<BluetoothCharacteristic> characteristics = service.characteristics;
+      for (var characteristic in characteristics){
+        if (characteristic.uuid.toString() == transferUUID){
+          print("Caractéristique trouvée, abonnement aux notifications...");
+          await characteristic.setNotifyValue(true);
+          print("Abonné ! En attente de données...");
+          yield* characteristic.onValueReceived;
+          print("Stream terminé"); 
+          return;
         }
       }
     }
   }
+  print(" Aucune caractéristique trouvée !");
+}
 
   static Map<String, dynamic> parseData(List<int> bytes){
     String decode = utf8.decode(bytes);

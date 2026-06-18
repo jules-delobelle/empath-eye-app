@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen>{
     Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
 
     if(token == null || enfant == null){
+      print("Token ou enfant null");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Erreur lors du chargement"))
       );
@@ -79,15 +80,19 @@ class _HomeScreenState extends State<HomeScreen>{
 
     _ouvrirDialog();
 
-    List<ScanResult> appareils = await BLEService.scanDevices().first;
+    print("Début du scan...");
+    List<ScanResult> appareils = await BLEService.scanDevices();
+    print("Scan terminé, ${appareils.length} appareil(s) trouvé(s)");
     ScanResult? lunettes;
     for (var appareil in appareils) {
-      if (appareil.device.platformName == "EmpathEye") {
+      print("   → ${appareil.device.platformName} (${appareil.device.remoteId})");
+      if (appareil.device.platformName.startsWith("EmpathEye"))  {
           lunettes = appareil;
           break;
         }
     }
     if (lunettes == null) {
+      print("Lunettes introuvables");
       setState(() {_etat = EtatConnexion.erreur;});
       _setDialogState?.call(() {});
       ScaffoldMessenger.of(context).showSnackBar(
@@ -99,8 +104,11 @@ class _HomeScreenState extends State<HomeScreen>{
     setState(() {_etat = EtatConnexion.connecte;});
     _setDialogState?.call(() {});
 
+    print("Lunettes trouvées, connexion...");
     await BLEService.connect(lunettes.device);
+    print("Connecté, envoi de REQUEST_FILES...");
     await BLEService.sendCommand(lunettes.device, "REQUEST_FILES");
+    print("Commande envoyée, écoute du transfert...");
 
     List<int> buffer = [];
     int tailleAttendue = 0;
@@ -133,45 +141,86 @@ class _HomeScreenState extends State<HomeScreen>{
 
     if(sessionDuJour == null) return;
 
+    List<int> bufferTotal = [];
+    int compteurPaquets = 0;
+
     await for (var paquet in BLEService.listenTransfer(lunettes.device)) {
-      bool estMetadonnee = false;
+      compteurPaquets++;
+      print("--- Paquet #$compteurPaquets reçu, taille: ${paquet.length} ---");
+      
+      bool estFinDeTransfert = false;
 
       try {
-        dynamic json = jsonDecode(utf8.decode(paquet));
-        estMetadonnee = true;
-
-        if (json["name"] == "__END__") {
-          break;
+        String decoded = utf8.decode(paquet);
+        print("Décodage UTF8 réussi: $decoded");
+        
+        dynamic json = jsonDecode(decoded);
+        print("jsonDecode réussi, type: ${json.runtimeType}");
+        
+        if (json is Map && json["name"] == "__END__") {
+          print("→ Marqueur __END__ détecté !");
+          estFinDeTransfert = true;
+        } else {
+          print("→ JSON valide mais pas __END__ (probablement métadonnée ou fichier complet en 1 chunk)");
         }
-
-        tailleAttendue = json["size"];
-        buffer = [];
       } catch (e) {
-        estMetadonnee = false;
+        print("→ Pas du JSON valide (chunk binaire), erreur: $e");
       }
 
-      if (!estMetadonnee) {
-        buffer.addAll(paquet);
-
-        if (tailleAttendue > 0 && buffer.length >= tailleAttendue) {
-          try {
-            Map detectionJson = jsonDecode(utf8.decode(buffer));
-            await ApiServices.createDetection(
-              token,
-              sessionDuJour.idSession,
-              detectionJson["emotion"],
-              DateTime.parse(detectionJson["heure"]),
-              detectionJson["important"],
-            );
-          } catch (e) {
-            print("Erreur lors du traitement de la détection : $e");
-          }
-        }
+      if (estFinDeTransfert) {
+        print("Fin du transfert, sortie de la boucle");
+        break;
+      } else {
+        bufferTotal.addAll(paquet);
+        print("→ Ajouté au buffer. Taille buffer total: ${bufferTotal.length}");
       }
     }
-    await BLEService.sendCommand(lunettes.device, "TRANSFER_OK");
 
+    print("=== Boucle terminée ===");
+    print("Nombre total de paquets reçus: $compteurPaquets");
+    print("Taille finale du buffer: ${bufferTotal.length} octets");
+
+    try {
+      String texteComplet = utf8.decode(bufferTotal);
+      print("Buffer décodé en texte (${texteComplet.length} caractères):");
+      print(texteComplet);
+      
+      List<dynamic> detections = jsonDecode(texteComplet);
+      print("JSON parsé avec succès ! Nombre de détections: ${detections.length}");
+      
+      for (var i = 0; i < detections.length; i++) {
+        var detectionJson = detections[i];
+        print("--- Traitement détection #${i + 1}: $detectionJson ---");
+        
+        String timestamp = detectionJson["timestamp"];
+        DateTime heure = DateTime(
+          int.parse(timestamp.substring(0, 4)),
+          int.parse(timestamp.substring(4, 6)),
+          int.parse(timestamp.substring(6, 8)),
+          int.parse(timestamp.substring(9, 11)),
+          int.parse(timestamp.substring(11, 13)),
+          int.parse(timestamp.substring(13, 15)),
+        );
+        print("→ Timestamp parsé: $heure");
+
+        bool? success = await ApiServices.createDetection(
+          token,
+          sessionDuJour.idSession,
+          detectionJson["emotion"],
+          heure,
+          false,
+        );
+        print("→ Résultat de la création: $success");
+      }
+      print("=== Toutes les détections ont été créées avec succès ===");
+    } catch (e) {
+      print("ERREUR lors du traitement des détections : $e");
+    }
+    print("Transfert terminé");
+    await BLEService.sendCommand(lunettes.device, "TRANSFER_OK");
+    print("Envoi de TRANSFER_OK");
     await BLEService.disconnect(lunettes.device);
+    print("Deconnecté");
 
     await ApiServices.updateDernierTelechargement(token, enfant.idEnfant);
 
@@ -222,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen>{
           SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 14))
+            child: Text("Émotions rencontrées sur les 7 dernières sessions :", style: TextStyle(fontSize: 13))
           ),
           SizedBox(height: 10,),
           EmotionGraph(stats: _stats),
