@@ -29,7 +29,7 @@ class ConnexionCard extends StatelessWidget {
                 TextSpan(
                     text: 
                       dernierTelechargement != null 
-                      ? "Dernier téléchargement : ${DateFormat('d MMMM yyyy, HH\'h\'mm', 'fr').format(dernierTelechargement!)}"
+                      ? DateFormat('d MMMM yyyy, HH\'h\'mm', 'fr').format(dernierTelechargement!)
                       : "Aucun téléchargement",
                     style: TextStyle(fontWeight: FontWeight.bold, color: appColors['vert_fonce'])
                 ),

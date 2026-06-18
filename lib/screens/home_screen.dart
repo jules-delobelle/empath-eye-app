@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen>{
           sessionDuJour.idSession,
           detectionJson["emotion"],
           heure,
-          false,
+          detectionJson["saved?"] ?? false
         );
         print("→ Résultat de la création: $success");
       }
