@@ -32,16 +32,16 @@ class QuizResultScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _ScoreGauge(percent: scorePercent),
+            const SizedBox(height: 24),
             Center(
               child: Image.asset(
                 _getMascottes(scorePercent),
-                height: 150,
+                height: 120,
               ),
-            ),
-            const SizedBox(height: 24),
-            _ScoreGauge(percent: scorePercent),
+            ),            
             if (resultat.type == "grand_quiz") ...[
-              const SizedBox(height: 32),
+              const SizedBox(height: 10),
               Text(
                 "DÉTAIL PAR ÉMOTION",
                 style: TextStyle(
@@ -63,7 +63,7 @@ class QuizResultScreen extends StatelessWidget {
                 );
               }),
             ],
-            SizedBox(height: 32),
+            SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -71,7 +71,7 @@ class QuizResultScreen extends StatelessWidget {
                 child: Text(
                   "Recommencer un entraînement",
                   style: TextStyle(
-                    color: appColors['vert_fonce'],
+                    color: appColors['violet_fonce'],
                   ),
                 ),
               ),
@@ -265,7 +265,7 @@ class _EmotionBarState extends State<_EmotionBar>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -70,6 +70,7 @@ flutter:
     - assets/images/emotions/tristesse/
     - assets/images/emotions/colere/
     - assets/images/emotions/surprise/
+    - assets/images/emotions/neutre/
     - assets/images/logo/
     - assets/images/mascotte/
 
