@@ -142,13 +142,13 @@ class _QuizScreenState extends State<QuizScreen> {
             if (_type == "grand_quiz") ...[
               // --- Grand Quiz ---
               Image.asset(_questions![_indexActuel].path,
-              height: 300,
+              height: 250,
               fit: BoxFit.contain,),
               const SizedBox(height: 16),
               Text(
                 "Quelle émotion est décrite sur l'image ?",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: appColors['violet_logo'],
                 ),
@@ -162,7 +162,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
-                childAspectRatio: 2.2,
+                childAspectRatio: 2.8,
                 children: _emotionsMelangees.map((emotion) {
                   final isSelected = _reponseSelectionnee == emotion;
                   final couleur = emotionColors[emotion] ?? Colors.grey;
@@ -195,7 +195,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 ElevatedButton(
                   onPressed: _reponseSelectionnee != null ? _validerReponse : null,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 6),
                     textStyle: const TextStyle(fontSize: 18),
                   ),
                   child: Text(
