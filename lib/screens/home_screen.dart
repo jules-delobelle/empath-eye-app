@@ -16,7 +16,7 @@ import '../services/ble_service.dart';
 import '../services/api_services.dart';
 import '../utils/colors.dart';
 
-enum EtatConnexion {recherche, connecte, erreur}
+enum EtatConnexion { recherche, connecte, transfert, termine, erreur }
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -71,13 +71,13 @@ class _HomeScreenState extends State<HomeScreen>{
     Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
 
     if(token == null || enfant == null){
-      print("Token ou enfant null");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Erreur lors du chargement"))
       );
       return;
     }
 
+    setState(() {_etat = EtatConnexion.recherche;});
     _ouvrirDialog();
 
     print("Début du scan...");
@@ -108,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen>{
     await BLEService.connect(lunettes.device);
     print("Connecté, envoi de REQUEST_FILES...");
     await BLEService.sendCommand(lunettes.device, "REQUEST_FILES");
+    setState(() {_etat = EtatConnexion.transfert;});
     print("Commande envoyée, écoute du transfert...");
 
     List<int> buffer = [];
@@ -222,6 +223,8 @@ class _HomeScreenState extends State<HomeScreen>{
     await BLEService.disconnect(lunettes.device);
     print("Deconnecté");
 
+    setState(() {_etat = EtatConnexion.termine;});
+
     await ApiServices.updateDernierTelechargement(token, enfant.idEnfant);
 
     final enfants = await ApiServices.getEnfants(token);
@@ -234,6 +237,7 @@ class _HomeScreenState extends State<HomeScreen>{
 
 
     await _loadStats();
+    await Future.delayed(Duration(seconds: 2));
     Navigator.pop(context);
   }
 
