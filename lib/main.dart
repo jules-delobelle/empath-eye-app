@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
+      debugShowCheckedModeBanner: false,
       initialRoute: initialRoute,
       routes: { 
         '/about': (context) => const AboutScreen(),
