@@ -66,6 +66,34 @@ class _HomeScreenState extends State<HomeScreen>{
     }
   }
 
+  Map<String, Session> _sessionCache = {};
+
+  Future<Session?> _getOuCreerSession(
+      String token, int idEnfant, DateTime date, List<Session> sessions) async {
+    String cle = "${date.year}-${date.month}-${date.day}";
+
+    if (_sessionCache.containsKey(cle)) {
+      return _sessionCache[cle];
+    }
+
+    for (var session in sessions) {
+      if (session.date != null &&
+          session.date!.year == date.year &&
+          session.date!.month == date.month &&
+          session.date!.day == date.day) {
+        _sessionCache[cle] = session;
+        return session;
+      }
+    }
+
+    Session? nouvelleSession = await ApiServices.createSession(token, date, idEnfant);
+    if (nouvelleSession != null) {
+      sessions.add(nouvelleSession);
+      _sessionCache[cle] = nouvelleSession;
+    }
+    return nouvelleSession;
+  }
+
   void _telecharger() async{
     String? token = await ApiServices.getToken();
     Enfant? enfant = Provider.of<AppProvider>(context, listen: false).getEnfantSelectionne();
@@ -114,33 +142,15 @@ class _HomeScreenState extends State<HomeScreen>{
     List<int> buffer = [];
     int tailleAttendue = 0;
     List<Session>? sessions = await ApiServices.getSessions(token, enfant.idEnfant);
-    Session? sessionDuJour;
-    
-    if (sessions != null){
-      for (var session in sessions){
-        if(session.date != null){ 
-          if (
-              session.date!.year == DateTime.now().year &&
-              session.date!.month == DateTime.now().month &&
-              session.date!.day == DateTime.now().day
-              ){
-            sessionDuJour = session;
-            break;
-              }
-        }
-      }
-    }else{
+
+    if (sessions == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Erreur de session"))
       );
       return;
     }
 
-    if (sessionDuJour == null){
-      sessionDuJour = await ApiServices.createSession(token, DateTime.now(), enfant.idEnfant);
-    }
-
-    if(sessionDuJour == null) return;
+    _sessionCache = {};
 
     List<int> bufferTotal = [];
     int compteurPaquets = 0;
@@ -204,9 +214,16 @@ class _HomeScreenState extends State<HomeScreen>{
         );
         print("→ Timestamp parsé: $heure");
 
+        Session? sessionPourCetteDetection = await _getOuCreerSession(token, enfant.idEnfant, heure, sessions);
+
+        if (sessionPourCetteDetection == null) {
+          print("Impossible de créer/trouver la session pour cette date");
+          continue;
+        }
+
         bool? success = await ApiServices.createDetection(
           token,
-          sessionDuJour.idSession,
+          sessionPourCetteDetection.idSession,
           detectionJson["emotion"],
           heure,
           detectionJson["saved?"] ?? false
