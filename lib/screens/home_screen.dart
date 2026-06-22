@@ -176,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen>{
         }
       } catch (e) {
         print("→ Pas du JSON valide (chunk binaire), erreur: $e");
+        
       }
 
       if (estFinDeTransfert) {
@@ -233,6 +234,8 @@ class _HomeScreenState extends State<HomeScreen>{
       print("=== Toutes les détections ont été créées avec succès ===");
     } catch (e) {
       print("ERREUR lors du traitement des détections : $e");
+      setState(() {_etat = EtatConnexion.erreur;});
+      return;
     }
     print("Transfert terminé");
     await BLEService.sendCommand(lunettes.device, "TRANSFER_OK");

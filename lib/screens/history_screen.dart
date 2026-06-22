@@ -24,6 +24,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   String? token;
   List<Session> _sessions = [];
   List<Detection> _importantDetections = [];
+  bool _voirPlus = false;
 
   @override
   void initState(){
@@ -88,17 +89,61 @@ class _HistoryScreenState extends State<HistoryScreen> {
               showDate: true,
               showSeconds: false
             )),
-            if (_importantDetections.length > 3 )ExpansionTile(
-              title: Text("Voir plus"),
-              children: [
-                ..._importantDetections.skip(3).map((detection) => DetectionTile(
-                  detection: detection,
-                  onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
-                  showDate: true,
-                  showSeconds: false
-                ))
-              ]
-            ),
+            if (_importantDetections.length > 3) 
+              if(!_voirPlus)
+                GestureDetector(
+                  onTap: () => setState(() => _voirPlus = true),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Voir plus",
+                          style: TextStyle(
+                            color: appColors["violet_clair"],
+                            fontSize: 16,
+                          ),
+                        ),
+                        Icon(
+                          Icons.keyboard_arrow_down,
+                          color: appColors["violet_clair"],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              if(_voirPlus)
+                ...[
+                  ..._importantDetections.skip(3).map((detection) => DetectionTile(
+                    detection: detection,
+                    onTap: () => Navigator.pushNamed(context, "/interaction", arguments: detection),
+                    showDate: true,
+                    showSeconds: false
+                  )),
+                  GestureDetector(
+                    onTap: () => setState(() => _voirPlus = false),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Voir moins",
+                            style: TextStyle(
+                              color: appColors["violet_clair"],
+                              fontSize: 16,
+                            ),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_up,
+                            color: appColors["violet_clair"],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
