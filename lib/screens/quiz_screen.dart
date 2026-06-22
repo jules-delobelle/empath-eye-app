@@ -22,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _reponsedonne = false;
   bool _bonneReponse = false;
   String? _type;
+  String? _emotionChoisie;              // émotion choisie par l'utilisateur pour quiz_emotion
   List<String> _emotionsMelangees = [];
   String? _emotionAffichee;
   String? _reponseSelectionnee;         // pour grand_quiz
@@ -38,15 +39,7 @@ class _QuizScreenState extends State<QuizScreen> {
       _reponseVraiFaux = null;
     });
     if (_type == "quiz_emotion") {
-      if (Random().nextInt(2) == 0) {
-        setState(() => _emotionAffichee = _questions![_indexActuel].emotion);
-      } else {
-        List<String> autresEmotions = QuizService.emotions
-            .where((e) => e != _questions![_indexActuel].emotion)
-            .toList();
-        setState(() => _emotionAffichee =
-            autresEmotions[Random().nextInt(autresEmotions.length)]);
-      }
+      setState(() => _emotionAffichee = _emotionChoisie);
     }
   }
 
@@ -84,7 +77,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _validerVraiFaux() {
     if (_reponseVraiFaux == null) return;
-    bool bonneEmotion = (_emotionAffichee == _questions![_indexActuel].emotion);
+    bool bonneEmotion = (_emotionChoisie == _questions![_indexActuel].emotion);
     String emotionQuestion = _questions![_indexActuel].emotion;
     setState(() {
       _questionsParEmotion[emotionQuestion] =
@@ -124,7 +117,10 @@ class _QuizScreenState extends State<QuizScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_questions == null) {
-      _type = ModalRoute.of(context)!.settings.arguments as String;
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      _type = args["type"] as String;
+      _emotionChoisie = args["emotion"] as String?;
+
       _questions = QuizService.genererQuestions();
       _nouvelleQuestion();
     }
