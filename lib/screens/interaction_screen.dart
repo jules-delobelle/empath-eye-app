@@ -17,6 +17,8 @@ class InteractionScreen extends StatefulWidget {
 class _InteractionScreenState extends State<InteractionScreen> {
   Detection? _detection;
 
+  static const List<String> _emotionsQuiz = ["joie", "tristesse", "colere", "surprise"];
+
 List<String> _getRandomImagesForEmotion(String? emotion, {int count = 4}) {
   final rand = Random();
   final String folder = emotion?.toLowerCase() ?? 'neutre';
@@ -102,6 +104,9 @@ String _getDescriptionForEmotion(String? emotion) {
 
   @override
   Widget build(BuildContext context) {
+    final emotion = _detection?.emotion?.toLowerCase();
+    final bool emotionEntrainable = _emotionsQuiz.contains(emotion);
+
     return Scaffold(
       appBar: CustomAppBar(titre: "Interaction"),
       drawer: const AppDrawer(),
@@ -162,6 +167,36 @@ String _getDescriptionForEmotion(String? emotion) {
                 textAlign: TextAlign.justify,
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            // ── Bouton "Entraîne toi !" ──────────────────────────────
+            if (emotionEntrainable)
+              SizedBox(
+                width: 220,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      "/quiz",
+                      arguments: {
+                        "type": "quiz_emotion",
+                        "emotion": emotion,
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: Text(
+                    "Entraîne-toi !",
+                    style: TextStyle(
+                      color: appColors['vert_fonce'],
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
 
             const SizedBox(height: 28),
 
