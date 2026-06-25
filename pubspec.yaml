@@ -71,7 +71,9 @@ flutter:
     - assets/images/emotions/colere/
     - assets/images/emotions/surprise/
     - assets/images/emotions/neutre/
+    - assets/images/icon/
     - assets/images/logo/
+    - assets/images/lunettes/
     - assets/images/mascotte/
 
   # An image asset can refer to one or more resolution-specific "variants", see
