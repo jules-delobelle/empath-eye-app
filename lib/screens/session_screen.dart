@@ -61,7 +61,7 @@ class _SessionScreenState extends State<SessionScreen>{
               _session != null
               ? "Session du ${DateFormat('d MMMM yyyy', 'fr').format(_session!.date!)}"
               : "Chargement...",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: appColors["violet_logo"])
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
